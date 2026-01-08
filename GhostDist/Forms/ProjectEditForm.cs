@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using GhostDist.Models;
+using GhostDist.Services;
 
 namespace GhostDist.Forms
 {
@@ -288,6 +289,55 @@ namespace GhostDist.Forms
         {
             DialogResult = DialogResult.Cancel;
             Close();
+        }
+
+        private void previewButton_Click(object sender, EventArgs e)
+        {
+            // 基準フォルダのチェック
+            if (string.IsNullOrWhiteSpace(targetFolderEdit.Text))
+            {
+                MessageBox.Show("基準フォルダを入力してください。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                targetFolderEdit.Focus();
+                return;
+            }
+
+            if (!Directory.Exists(targetFolderEdit.Text))
+            {
+                MessageBox.Show("基準フォルダが存在しません。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                targetFolderEdit.Focus();
+                return;
+            }
+
+            // 一時的な設定オブジェクトを作成
+            var tempSettings = new ProjectSettings
+            {
+                Name = string.IsNullOrWhiteSpace(nameEdit.Text) ? "(プレビュー)" : nameEdit.Text,
+                TargetFolder = targetFolderEdit.Text,
+                ProcessName = processNameMemo.Text,
+                ExcludeName = escapeNameMemo.Text
+            };
+
+            // ログフォームを表示
+            var logForm = new LogForm { IsLog = false };
+            logForm.Show();
+            logForm.EnableCloseButton(false);
+
+            try
+            {
+                // プレビューサービスを実行
+                var previewService = new FileFilterPreviewService();
+                previewService.LogMessage += (s, msg) => logForm.AddLog(msg);
+
+                previewService.PreviewFiles(tempSettings);
+            }
+            catch (Exception ex)
+            {
+                logForm.AddLog($"エラーが発生しました: {ex.Message}");
+            }
+            finally
+            {
+                logForm.EnableCloseButton(true);
+            }
         }
     }
 }

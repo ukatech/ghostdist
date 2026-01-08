@@ -40,6 +40,7 @@ namespace GhostDist.Forms
         private System.Windows.Forms.CheckBox defaultCheckBox;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button cancelButton;
+        private System.Windows.Forms.Button previewButton;
 
         protected override void Dispose(bool disposing)
         {
@@ -80,6 +81,7 @@ namespace GhostDist.Forms
             this.narNameLabel = new System.Windows.Forms.Label();
             this.narLocateButton = new System.Windows.Forms.Button();
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
+            this.previewButton = new System.Windows.Forms.Button();
             this.escapeNameMemo = new System.Windows.Forms.TextBox();
             this.escapeNameLabel = new System.Windows.Forms.Label();
             this.processNameMemo = new System.Windows.Forms.TextBox();
@@ -96,7 +98,7 @@ namespace GhostDist.Forms
             this.networkRadio.AutoSize = true;
             this.networkRadio.Checked = true;
             this.networkRadio.Location = new System.Drawing.Point(203, 30);
-            this.networkRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.networkRadio.Margin = new System.Windows.Forms.Padding(4);
             this.networkRadio.Name = "networkRadio";
             this.networkRadio.Size = new System.Drawing.Size(250, 19);
             this.networkRadio.TabIndex = 2;
@@ -109,7 +111,7 @@ namespace GhostDist.Forms
             // 
             this.narUpRadio.AutoSize = true;
             this.narUpRadio.Location = new System.Drawing.Point(203, 58);
-            this.narUpRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.narUpRadio.Margin = new System.Windows.Forms.Padding(4);
             this.narUpRadio.Name = "narUpRadio";
             this.narUpRadio.Size = new System.Drawing.Size(311, 19);
             this.narUpRadio.TabIndex = 3;
@@ -121,7 +123,7 @@ namespace GhostDist.Forms
             // 
             this.narCreateRadio.AutoSize = true;
             this.narCreateRadio.Location = new System.Drawing.Point(203, 85);
-            this.narCreateRadio.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.narCreateRadio.Margin = new System.Windows.Forms.Padding(4);
             this.narCreateRadio.Name = "narCreateRadio";
             this.narCreateRadio.Size = new System.Drawing.Size(212, 19);
             this.narCreateRadio.TabIndex = 4;
@@ -132,7 +134,7 @@ namespace GhostDist.Forms
             // nameEdit
             // 
             this.nameEdit.Location = new System.Drawing.Point(203, 0);
-            this.nameEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nameEdit.Margin = new System.Windows.Forms.Padding(4);
             this.nameEdit.Name = "nameEdit";
             this.nameEdit.Size = new System.Drawing.Size(363, 22);
             this.nameEdit.TabIndex = 1;
@@ -150,7 +152,7 @@ namespace GhostDist.Forms
             // targetFolderEdit
             // 
             this.targetFolderEdit.Location = new System.Drawing.Point(203, 115);
-            this.targetFolderEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.targetFolderEdit.Margin = new System.Windows.Forms.Padding(4);
             this.targetFolderEdit.Name = "targetFolderEdit";
             this.targetFolderEdit.Size = new System.Drawing.Size(501, 22);
             this.targetFolderEdit.TabIndex = 6;
@@ -168,7 +170,7 @@ namespace GhostDist.Forms
             // targetFolderLocateButton
             // 
             this.targetFolderLocateButton.Location = new System.Drawing.Point(715, 112);
-            this.targetFolderLocateButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.targetFolderLocateButton.Margin = new System.Windows.Forms.Padding(4);
             this.targetFolderLocateButton.Name = "targetFolderLocateButton";
             this.targetFolderLocateButton.Size = new System.Drawing.Size(100, 29);
             this.targetFolderLocateButton.TabIndex = 7;
@@ -189,9 +191,9 @@ namespace GhostDist.Forms
             this.serverGroupBox.Controls.Add(this.serverEdit);
             this.serverGroupBox.Controls.Add(this.serverLabel);
             this.serverGroupBox.Location = new System.Drawing.Point(11, 239);
-            this.serverGroupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.serverGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.serverGroupBox.Name = "serverGroupBox";
-            this.serverGroupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.serverGroupBox.Padding = new System.Windows.Forms.Padding(4);
             this.serverGroupBox.Size = new System.Drawing.Size(812, 119);
             this.serverGroupBox.TabIndex = 15;
             this.serverGroupBox.TabStop = false;
@@ -200,7 +202,7 @@ namespace GhostDist.Forms
             // setDefaultButton
             // 
             this.setDefaultButton.Location = new System.Drawing.Point(555, 80);
-            this.setDefaultButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.setDefaultButton.Margin = new System.Windows.Forms.Padding(4);
             this.setDefaultButton.Name = "setDefaultButton";
             this.setDefaultButton.Size = new System.Drawing.Size(247, 31);
             this.setDefaultButton.TabIndex = 9;
@@ -212,7 +214,7 @@ namespace GhostDist.Forms
             // 
             this.useDefaultFTPCheck.AutoSize = true;
             this.useDefaultFTPCheck.Location = new System.Drawing.Point(555, 50);
-            this.useDefaultFTPCheck.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.useDefaultFTPCheck.Margin = new System.Windows.Forms.Padding(4);
             this.useDefaultFTPCheck.Name = "useDefaultFTPCheck";
             this.useDefaultFTPCheck.Size = new System.Drawing.Size(142, 19);
             this.useDefaultFTPCheck.TabIndex = 8;
@@ -224,7 +226,7 @@ namespace GhostDist.Forms
             // 
             this.sslCheck.AutoSize = true;
             this.sslCheck.Location = new System.Drawing.Point(330, 87);
-            this.sslCheck.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.sslCheck.Margin = new System.Windows.Forms.Padding(4);
             this.sslCheck.Name = "sslCheck";
             this.sslCheck.Size = new System.Drawing.Size(73, 19);
             this.sslCheck.TabIndex = 7;
@@ -235,7 +237,7 @@ namespace GhostDist.Forms
             // 
             this.passiveCheck.AutoSize = true;
             this.passiveCheck.Location = new System.Drawing.Point(330, 57);
-            this.passiveCheck.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.passiveCheck.Margin = new System.Windows.Forms.Padding(4);
             this.passiveCheck.Name = "passiveCheck";
             this.passiveCheck.Size = new System.Drawing.Size(126, 19);
             this.passiveCheck.TabIndex = 6;
@@ -245,7 +247,7 @@ namespace GhostDist.Forms
             // passwordEdit
             // 
             this.passwordEdit.Location = new System.Drawing.Point(116, 83);
-            this.passwordEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.passwordEdit.Margin = new System.Windows.Forms.Padding(4);
             this.passwordEdit.Name = "passwordEdit";
             this.passwordEdit.PasswordChar = '*';
             this.passwordEdit.Size = new System.Drawing.Size(160, 22);
@@ -264,7 +266,7 @@ namespace GhostDist.Forms
             // idEdit
             // 
             this.idEdit.Location = new System.Drawing.Point(116, 53);
-            this.idEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.idEdit.Margin = new System.Windows.Forms.Padding(4);
             this.idEdit.Name = "idEdit";
             this.idEdit.Size = new System.Drawing.Size(160, 22);
             this.idEdit.TabIndex = 3;
@@ -282,7 +284,7 @@ namespace GhostDist.Forms
             // serverEdit
             // 
             this.serverEdit.Location = new System.Drawing.Point(116, 23);
-            this.serverEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.serverEdit.Margin = new System.Windows.Forms.Padding(4);
             this.serverEdit.Name = "serverEdit";
             this.serverEdit.Size = new System.Drawing.Size(288, 22);
             this.serverEdit.TabIndex = 1;
@@ -300,7 +302,7 @@ namespace GhostDist.Forms
             // upDirEdit
             // 
             this.upDirEdit.Location = new System.Drawing.Point(203, 146);
-            this.upDirEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.upDirEdit.Margin = new System.Windows.Forms.Padding(4);
             this.upDirEdit.Name = "upDirEdit";
             this.upDirEdit.Size = new System.Drawing.Size(501, 22);
             this.upDirEdit.TabIndex = 9;
@@ -319,7 +321,7 @@ namespace GhostDist.Forms
             // htmlEdit
             // 
             this.htmlEdit.Location = new System.Drawing.Point(203, 178);
-            this.htmlEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.htmlEdit.Margin = new System.Windows.Forms.Padding(4);
             this.htmlEdit.Name = "htmlEdit";
             this.htmlEdit.Size = new System.Drawing.Size(501, 22);
             this.htmlEdit.TabIndex = 11;
@@ -337,7 +339,7 @@ namespace GhostDist.Forms
             // htmlLocateButton
             // 
             this.htmlLocateButton.Location = new System.Drawing.Point(715, 175);
-            this.htmlLocateButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.htmlLocateButton.Margin = new System.Windows.Forms.Padding(4);
             this.htmlLocateButton.Name = "htmlLocateButton";
             this.htmlLocateButton.Size = new System.Drawing.Size(100, 29);
             this.htmlLocateButton.TabIndex = 12;
@@ -348,7 +350,7 @@ namespace GhostDist.Forms
             // narNameEdit
             // 
             this.narNameEdit.Location = new System.Drawing.Point(203, 209);
-            this.narNameEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.narNameEdit.Margin = new System.Windows.Forms.Padding(4);
             this.narNameEdit.Name = "narNameEdit";
             this.narNameEdit.Size = new System.Drawing.Size(501, 22);
             this.narNameEdit.TabIndex = 14;
@@ -366,7 +368,7 @@ namespace GhostDist.Forms
             // narLocateButton
             // 
             this.narLocateButton.Location = new System.Drawing.Point(715, 206);
-            this.narLocateButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.narLocateButton.Margin = new System.Windows.Forms.Padding(4);
             this.narLocateButton.Name = "narLocateButton";
             this.narLocateButton.Size = new System.Drawing.Size(100, 29);
             this.narLocateButton.TabIndex = 15;
@@ -381,18 +383,29 @@ namespace GhostDist.Forms
             this.fileGroupBox.Controls.Add(this.processNameMemo);
             this.fileGroupBox.Controls.Add(this.processNameLabel);
             this.fileGroupBox.Location = new System.Drawing.Point(11, 366);
-            this.fileGroupBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fileGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.fileGroupBox.Name = "fileGroupBox";
-            this.fileGroupBox.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.fileGroupBox.Padding = new System.Windows.Forms.Padding(4);
             this.fileGroupBox.Size = new System.Drawing.Size(812, 301);
             this.fileGroupBox.TabIndex = 16;
             this.fileGroupBox.TabStop = false;
             this.fileGroupBox.Text = "対象ファイル";
             // 
+            // previewButton
+            // 
+            this.previewButton.Location = new System.Drawing.Point(11, 678);
+            this.previewButton.Margin = new System.Windows.Forms.Padding(4);
+            this.previewButton.Name = "previewButton";
+            this.previewButton.Size = new System.Drawing.Size(284, 29);
+            this.previewButton.TabIndex = 4;
+            this.previewButton.Text = "フィルタリング結果をプレビュー(&K)";
+            this.previewButton.UseVisualStyleBackColor = true;
+            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
+            // 
             // escapeNameMemo
             // 
             this.escapeNameMemo.Location = new System.Drawing.Point(405, 50);
-            this.escapeNameMemo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.escapeNameMemo.Margin = new System.Windows.Forms.Padding(4);
             this.escapeNameMemo.Multiline = true;
             this.escapeNameMemo.Name = "escapeNameMemo";
             this.escapeNameMemo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -412,7 +425,7 @@ namespace GhostDist.Forms
             // processNameMemo
             // 
             this.processNameMemo.Location = new System.Drawing.Point(11, 50);
-            this.processNameMemo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.processNameMemo.Margin = new System.Windows.Forms.Padding(4);
             this.processNameMemo.Multiline = true;
             this.processNameMemo.Name = "processNameMemo";
             this.processNameMemo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -435,7 +448,7 @@ namespace GhostDist.Forms
             this.defaultCheckBox.Checked = true;
             this.defaultCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.defaultCheckBox.Location = new System.Drawing.Point(587, 4);
-            this.defaultCheckBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.defaultCheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.defaultCheckBox.Name = "defaultCheckBox";
             this.defaultCheckBox.Size = new System.Drawing.Size(169, 19);
             this.defaultCheckBox.TabIndex = 2;
@@ -445,7 +458,7 @@ namespace GhostDist.Forms
             // okButton
             // 
             this.okButton.Location = new System.Drawing.Point(708, 676);
-            this.okButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.okButton.Margin = new System.Windows.Forms.Padding(4);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(115, 31);
             this.okButton.TabIndex = 17;
@@ -457,20 +470,21 @@ namespace GhostDist.Forms
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cancelButton.Location = new System.Drawing.Point(580, 676);
-            this.cancelButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(115, 31);
             this.cancelButton.TabIndex = 18;
             this.cancelButton.Text = "キャンセル(&C)";
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-            //
+            // 
             // ProjectEditForm
-            //
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(839, 719);
+            this.Controls.Add(this.previewButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.defaultCheckBox);
@@ -493,14 +507,13 @@ namespace GhostDist.Forms
             this.Controls.Add(this.narUpRadio);
             this.Controls.Add(this.networkRadio);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProjectEditForm";
             this.ShowInTaskbar = false;
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Icon = global::GhostDist.Properties.Resources.AppIcon;
             this.Text = "プロジェクト編集";
             this.serverGroupBox.ResumeLayout(false);
             this.serverGroupBox.PerformLayout();
