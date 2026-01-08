@@ -1,0 +1,57 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# NuGet Packages
+packages/
+*.nupkg
+*.snupkg
+**/packages/*
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# ReSharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# NCrunch
+_NCrunch_*
+.*crunch*.local.xml
+nCrunchTemp_*
+
+# Application-specific (from SVN ignore)
+ghostdist.exe
+ghostdist.ini
+winpos.sav
+.claude/
+
+# Backup files
+*.~*
+*.bak
+*.orig
+
+# Windows
+Thumbs.db
+Desktop.ini
