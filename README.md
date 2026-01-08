@@ -2,6 +2,8 @@
 
 Delphi 6版からC#/.NET Framework 4.8に移行したバージョンです。
 
+[ダウンロードはこちらから](https://github.com/ukatech/ghostdist/releases)
+
 ## 概要
 
 伺かゴーストのネットワーク更新ファイル生成・FTPアップロード・NAR(ZIP)圧縮を自動化するツールです。
