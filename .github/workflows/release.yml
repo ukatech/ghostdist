@@ -1,0 +1,57 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore GhostDist.sln
+
+    - name: Build Release
+      run: msbuild GhostDist.sln /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath=bin\Release\
+
+    - name: Prepare release files
+      run: |
+        mkdir release
+        copy GhostDist\bin\Release\GhostDist.exe release\
+        copy readme_for_deploy.txt release\readme.txt
+      shell: cmd
+
+    - name: Create ZIP archive
+      run: |
+        cd release
+        Compress-Archive -Path GhostDist.exe,readme.txt -DestinationPath ghostdist.zip
+      shell: powershell
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ghostdist
+        path: release/ghostdist.zip
+
+    - name: Create Release
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: release/ghostdist.zip
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
