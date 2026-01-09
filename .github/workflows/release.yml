@@ -45,6 +45,36 @@ jobs:
         name: ghostdist
         path: release/ghostdist.zip
 
+    - name: Generate release notes from commit log
+      if: startsWith(github.ref, 'refs/tags/')
+      id: release_notes
+      run: |
+        # Get current tag
+        $currentTag = "${{ github.ref_name }}"
+
+        # Get previous tag
+        git fetch --tags
+        $previousTag = git tag --sort=-version:refname | Select-Object -Skip 1 -First 1
+
+        if ($previousTag) {
+          # Get commit log between previous tag and current tag
+          $commitLog = git log --pretty=format:"- %s (%h)" "$previousTag..$currentTag"
+          $releaseNotes = "## Changes from $previousTag to $currentTag`n`n$commitLog"
+        } else {
+          # If no previous tag exists, get all commits
+          $commitLog = git log --pretty=format:"- %s (%h)" "$currentTag"
+          $releaseNotes = "## Changes in $currentTag`n`n$commitLog"
+        }
+
+        # Save to file
+        $releaseNotes | Out-File -FilePath release_notes.txt -Encoding UTF8
+
+        # Output for GitHub Actions
+        "RELEASE_NOTES<<EOF" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        $releaseNotes | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+        "EOF" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+      shell: powershell
+
     - name: Create Release
       if: startsWith(github.ref, 'refs/tags/')
       uses: softprops/action-gh-release@v2
@@ -52,6 +82,6 @@ jobs:
         files: release/ghostdist.zip
         draft: false
         prerelease: false
-        generate_release_notes: true
+        body: ${{ steps.release_notes.outputs.RELEASE_NOTES }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
