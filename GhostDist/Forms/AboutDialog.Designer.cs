@@ -40,10 +40,11 @@ namespace GhostDist.Forms
             // iconPictureBox
             // 
             this.iconPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.iconPictureBox.Location = new System.Drawing.Point(165, 25);
+            this.iconPictureBox.Image = global::GhostDist.Properties.Resources.GhostDistBanner;
+            this.iconPictureBox.Location = new System.Drawing.Point(13, 13);
             this.iconPictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.iconPictureBox.Name = "iconPictureBox";
-            this.iconPictureBox.Size = new System.Drawing.Size(133, 125);
+            this.iconPictureBox.Size = new System.Drawing.Size(438, 185);
             this.iconPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.iconPictureBox.TabIndex = 0;
             this.iconPictureBox.TabStop = false;
@@ -52,7 +53,7 @@ namespace GhostDist.Forms
             // 
             this.titleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.titleLabel.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.titleLabel.Location = new System.Drawing.Point(-41, 162);
+            this.titleLabel.Location = new System.Drawing.Point(-41, 202);
             this.titleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(533, 38);
@@ -64,7 +65,7 @@ namespace GhostDist.Forms
             // 
             this.versionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.versionLabel.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.versionLabel.Location = new System.Drawing.Point(-41, 206);
+            this.versionLabel.Location = new System.Drawing.Point(-41, 238);
             this.versionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(533, 25);
@@ -75,7 +76,7 @@ namespace GhostDist.Forms
             // urlTextLabel
             // 
             this.urlTextLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.urlTextLabel.Location = new System.Drawing.Point(39, 238);
+            this.urlTextLabel.Location = new System.Drawing.Point(39, 267);
             this.urlTextLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.urlTextLabel.Name = "urlTextLabel";
             this.urlTextLabel.Size = new System.Drawing.Size(120, 25);
@@ -89,7 +90,7 @@ namespace GhostDist.Forms
             this.linkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.linkLabel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkLabel.LinkColor = System.Drawing.Color.Blue;
-            this.linkLabel.Location = new System.Drawing.Point(165, 238);
+            this.linkLabel.Location = new System.Drawing.Point(165, 267);
             this.linkLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel.Name = "linkLabel";
             this.linkLabel.Size = new System.Drawing.Size(333, 25);
@@ -104,7 +105,7 @@ namespace GhostDist.Forms
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(159, 275);
+            this.okButton.Location = new System.Drawing.Point(159, 300);
             this.okButton.Margin = new System.Windows.Forms.Padding(4);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(133, 38);

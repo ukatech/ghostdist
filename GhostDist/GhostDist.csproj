@@ -160,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GhostDist.ico" />
+    <None Include="GhostDistBanner.jpg" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.8">

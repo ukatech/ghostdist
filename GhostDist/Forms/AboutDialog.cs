@@ -15,13 +15,6 @@ namespace GhostDist.Forms
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var version = assembly.GetName().Version;
             versionLabel.Text = $"バージョン: {version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
-
-            // MainFormのアイコンを取得して表示
-            var mainForm = Application.OpenForms.OfType<MainForm>().FirstOrDefault();
-            if (mainForm?.Icon != null)
-            {
-                iconPictureBox.Image = mainForm.Icon.ToBitmap();
-            }
         }
 
         private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
