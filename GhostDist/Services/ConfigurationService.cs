@@ -186,8 +186,8 @@ namespace GhostDist.Services
                     data[section]["ExcludeName"] = ConvertLinesToCommaText(project.ExcludeName);
                 }
 
-                var parser = new FileIniDataParser();
-                parser.WriteFile(_iniPath, data, Encoding.GetEncoding("Shift_JIS"));
+                // カスタムINI書き込み（"="前後の空白を入れない）
+                WriteIniFile(_iniPath, data);
             }
             catch (Exception ex)
             {
@@ -243,6 +243,56 @@ namespace GhostDist.Services
 
             var parts = lines.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             return string.Join(",", parts.Select(p => p.Trim()).Where(p => !string.IsNullOrEmpty(p)));
+        }
+
+        /// <summary>
+        /// INIファイルをカスタム形式で書き込み（"="前後の空白なし）
+        /// </summary>
+        private void WriteIniFile(string filePath, IniData data)
+        {
+            var encoding = Encoding.GetEncoding("Shift_JIS");
+            using (var writer = new StreamWriter(filePath, false, encoding))
+            {
+                foreach (var section in data.Sections)
+                {
+                    // セクションヘッダー
+                    writer.WriteLine($"[{section.SectionName}]");
+
+                    // キー=値のペア（空白なし）
+                    foreach (var key in section.Keys)
+                    {
+                        // 安全性のため、keyから改行と"="を削除、valueから改行を削除
+                        var safeKey = SanitizeIniKey(key.KeyName);
+                        var safeValue = SanitizeIniValue(key.Value);
+                        writer.WriteLine($"{safeKey}={safeValue}");
+                    }
+
+                    // セクション間の空行
+                    writer.WriteLine();
+                }
+            }
+        }
+
+        /// <summary>
+        /// INIキー名をサニタイズ（改行と"="を削除）
+        /// </summary>
+        private string SanitizeIniKey(string key)
+        {
+            if (string.IsNullOrEmpty(key))
+                return "";
+
+            return key.Replace("\r", "").Replace("\n", "").Replace("=", "");
+        }
+
+        /// <summary>
+        /// INI値をサニタイズ（改行を削除）
+        /// </summary>
+        private string SanitizeIniValue(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return "";
+
+            return value.Replace("\r", "").Replace("\n", "");
         }
     }
 }
