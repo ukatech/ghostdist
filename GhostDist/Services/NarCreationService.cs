@@ -45,7 +45,7 @@ namespace GhostDist.Services
             // updates2.dau生成
             var targetFolder = Path.GetFullPath(settings.TargetFolder).TrimEnd('\\') + "\\";
             var dauPath = Path.Combine(targetFolder, "updates2.dau");
-            updates.SaveToFile(dauPath);
+            updates.SaveToFile(dauPath, OnLogMessage);
 
             // ghost/master/updates2.dauにもコピー
             var masterDauPath = Path.Combine(targetFolder, "ghost", "master", "updates2.dau");
@@ -70,7 +70,7 @@ namespace GhostDist.Services
                     zipOutput.IsStreamOwner = true;
 
                     // Shift_JISエンコーディング設定（後方互換性のため維持）
-                    var shiftJisEncoding = Encoding.GetEncoding("Shift_JIS");
+                    var shiftJisEncoding = EncodingHelper.GetShiftJISEncoding();
                     ZipStrings.CodePage = shiftJisEncoding.CodePage;
 
                     // ディレクトリを収集（重複を排除）
@@ -124,7 +124,7 @@ namespace GhostDist.Services
                         extraFields.Add(ntfsTimestamp);
 
                         // Unicode Path Extra Field追加（Shift_JISで表現できない文字がある場合）
-                        if (RequiresUnicodeSupport(entryName, shiftJisEncoding))
+                        if (EncodingHelper.RequiresUnicodeSupport(entryName))
                         {
                             var shiftJisBytes = shiftJisEncoding.GetBytes(entryName);
                             var unicodeExtraField = UnicodePathExtraField.Create(entryName, shiftJisBytes);
@@ -230,7 +230,7 @@ namespace GhostDist.Services
             }
 
             // Unicode Path Extra Field追加（Shift_JISで表現できない文字がある場合）
-            if (RequiresUnicodeSupport(dirPath, shiftJisEncoding))
+            if (EncodingHelper.RequiresUnicodeSupport(dirPath))
             {
                 var shiftJisBytes = shiftJisEncoding.GetBytes(dirPath);
                 var unicodeExtraField = UnicodePathExtraField.Create(dirPath, shiftJisBytes);
@@ -269,30 +269,6 @@ namespace GhostDist.Services
             }
 
             return combined;
-        }
-
-        /// <summary>
-        /// ファイル名がShift_JISで正確に表現できるか判定
-        /// </summary>
-        /// <param name="filename">判定対象のファイル名</param>
-        /// <param name="shiftJisEncoding">Shift_JISエンコーディング</param>
-        /// <returns>Unicode対応が必要な場合true</returns>
-        private bool RequiresUnicodeSupport(string filename, Encoding shiftJisEncoding)
-        {
-            try
-            {
-                // Shift_JISでエンコード→デコードして元に戻るか確認
-                var bytes = shiftJisEncoding.GetBytes(filename);
-                var decoded = shiftJisEncoding.GetString(bytes);
-
-                // 完全一致しない場合はUnicode必須
-                return decoded != filename;
-            }
-            catch
-            {
-                // エンコード失敗 = Unicode必須
-                return true;
-            }
         }
 
         protected virtual void OnLogMessage(string message)

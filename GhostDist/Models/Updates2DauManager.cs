@@ -149,7 +149,10 @@ namespace GhostDist.Models
             if (!File.Exists(path))
                 return;
 
-            var lines = File.ReadAllLines(path, Encoding.GetEncoding("Shift_JIS"));
+            // charset自動検出
+            var encoding = DetectCharsetFromFile(path);
+
+            var lines = File.ReadAllLines(path, encoding);
             foreach (var line in lines)
             {
                 if (string.IsNullOrWhiteSpace(line))
@@ -164,11 +167,71 @@ namespace GhostDist.Models
         }
 
         /// <summary>
+        /// updates2.dauファイルからcharsetを検出
+        /// </summary>
+        private Encoding DetectCharsetFromFile(string path)
+        {
+            try
+            {
+                // まずShift_JISで読み込んでcharset行を探す
+                var firstLine = File.ReadLines(path, Encoding.GetEncoding("Shift_JIS")).FirstOrDefault();
+                if (!string.IsNullOrEmpty(firstLine))
+                {
+                    // charset=UTF-8 が含まれているかチェック
+                    if (firstLine.Contains("charset=UTF-8"))
+                    {
+                        return Encoding.UTF8;
+                    }
+                }
+            }
+            catch
+            {
+                // エラーの場合はデフォルトのShift_JISを使用
+            }
+
+            // デフォルトはShift_JIS
+            return Encoding.GetEncoding("Shift_JIS");
+        }
+
+        /// <summary>
         /// updates2.dauファイルに保存
         /// </summary>
-        public void SaveToFile(string path)
+        /// <param name="path">保存先パス</param>
+        /// <param name="logCallback">ログ出力用のコールバック（省略可）</param>
+        public void SaveToFile(string path, Action<string> logCallback = null)
         {
             var lines = new List<string>();
+            var encoding = Encoding.GetEncoding("Shift_JIS");
+            var charsetName = "Shift_JIS";
+
+            // 全ファイル名がShift_JISで表現可能かチェック
+            var requiresUtf8 = false;
+            var problematicFiles = new List<string>();
+
+            foreach (var file in Files)
+            {
+                if (!EncodingHelper.CanEncodeInShiftJIS(file.Name))
+                {
+                    requiresUtf8 = true;
+                    problematicFiles.Add(file.Name);
+                }
+            }
+
+            // UTF-8が必要な場合は切り替え
+            if (requiresUtf8)
+            {
+                encoding = Encoding.UTF8;
+                charsetName = "UTF-8";
+
+                if (logCallback != null)
+                {
+                    logCallback($"警告: 以下のファイル名にShift_JISで表現できない文字が含まれています。updates2.dauをUTF-8で保存します。");
+                    foreach (var fileName in problematicFiles)
+                    {
+                        logCallback($"  - {fileName}");
+                    }
+                }
+            }
 
             for (int i = 0; i < Files.Count; i++)
             {
@@ -177,13 +240,13 @@ namespace GhostDist.Models
                 // 最初の行にcharsetを追加
                 if (i == 0)
                 {
-                    line += "charset=Shift_JIS\x01";
+                    line += $"charset={charsetName}\x01";
                 }
 
                 lines.Add(line);
             }
 
-            File.WriteAllLines(path, lines, Encoding.GetEncoding("Shift_JIS"));
+            File.WriteAllLines(path, lines, encoding);
         }
 
         /// <summary>

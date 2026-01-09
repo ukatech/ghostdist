@@ -171,7 +171,7 @@ namespace GhostDist.Services
                             File.Delete(tempDauPath);
                         }
 
-                        localUpdates.SaveToFile(tempDauPath);
+                        localUpdates.SaveToFile(tempDauPath, OnLogMessage);
                         OnLogMessage("updates2.dauをアップロードします。");
                         var remoteDauPathFinal = CombineRemotePath(remoteDir, "updates2.dau");
                         ftpService.UploadFile(tempDauPath, remoteDauPathFinal);
