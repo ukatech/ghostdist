@@ -106,6 +106,12 @@ namespace GhostDist.Services
                         entry.DateTime = fileInfo.LastWriteTime;
                         entry.Size = fileInfo.Length;
 
+                        // 256バイト以下のファイルはStore（無圧縮）に設定
+                        if (fileInfo.Length <= 256)
+                        {
+                            entry.CompressionMethod = CompressionMethod.Stored;
+                        }
+
                         // Extra Fieldsを追加
                         var extraFields = new List<byte[]>();
 
