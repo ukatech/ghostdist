@@ -35,6 +35,7 @@ namespace GhostDist.Forms
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.projectListBox = new System.Windows.Forms.CheckedListBox();
             this.newButton = new System.Windows.Forms.Button();
             this.editButton = new System.Windows.Forms.Button();
@@ -250,7 +251,7 @@ namespace GhostDist.Forms
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
-            this.menuStrip.Size = new System.Drawing.Size(530, 30);
+            this.menuStrip.Size = new System.Drawing.Size(530, 28);
             this.menuStrip.TabIndex = 15;
             this.menuStrip.Text = "menuStrip";
             // 
@@ -305,6 +306,7 @@ namespace GhostDist.Forms
             this.Controls.Add(this.newButton);
             this.Controls.Add(this.projectListBox);
             this.Controls.Add(this.menuStrip);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MinimumSize = new System.Drawing.Size(527, 363);

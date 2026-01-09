@@ -435,9 +435,10 @@ namespace GhostDist.Forms
 
         private void aboutMenuItem_Click(object sender, EventArgs e)
         {
-            string version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            string message = $"ゴースト配布系自動化システム\n\nバージョン: {version}\n\n開発元サイト: https://ssp.shillest.net/";
-            MessageBox.Show(message, "バージョン情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            using (var aboutDialog = new AboutDialog())
+            {
+                aboutDialog.ShowDialog(this);
+            }
         }
     }
 }
