@@ -81,6 +81,10 @@ namespace GhostDist.Services
             _client.Config.ConnectTimeout = 30000;
             _client.Config.ReadTimeout = 60000;
             _client.Config.DataConnectionConnectTimeout = 30000;
+            _client.Config.DataConnectionReadTimeout = 60000;
+
+            // 切断時のQUITコマンドを無効化（ハング防止）
+            _client.Config.DisconnectWithQuit = false;
 
             // 接続
             _client.Connect();
@@ -92,15 +96,39 @@ namespace GhostDist.Services
         /// </summary>
         public void Disconnect()
         {
-            if (_client != null && _client.IsConnected)
+            if (_client != null)
             {
-                _client.Disconnect();
-                OnLogMessage("FTP接続を切断しました。");
-            }
+                try
+                {
+                    if (_client.IsConnected)
+                    {
+                        // タイムアウトを設定して切断を試みる
+                        var disconnectTask = System.Threading.Tasks.Task.Run(() => _client.Disconnect());
+                        if (!disconnectTask.Wait(TimeSpan.FromSeconds(5)))
+                        {
+                            OnLogMessage("FTP切断がタイムアウトしました。強制的に接続を閉じます。");
+                        }
+                        else
+                        {
+                            OnLogMessage("FTP接続を切断しました。");
+                        }
+                    }
 
-            _client?.Dispose();
-            _client = null;
-            _currentDirectory = null;
+                    // Disposeにもタイムアウトを設定
+                    var disposeTask = System.Threading.Tasks.Task.Run(() => _client.Dispose());
+                    if (!disposeTask.Wait(TimeSpan.FromSeconds(3)))
+                    {
+                        OnLogMessage("FTPクライアントのDispose処理がタイムアウトしました。");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    OnLogMessage($"FTP切断中にエラーが発生しました: {ex.Message}");
+                }
+
+                _client = null;
+                _currentDirectory = null;
+            }
         }
 
         /// <summary>
