@@ -39,7 +39,8 @@ namespace GhostDist.Forms
             // 
             // iconPictureBox
             // 
-            this.iconPictureBox.Location = new System.Drawing.Point(233, 25);
+            this.iconPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.iconPictureBox.Location = new System.Drawing.Point(165, 25);
             this.iconPictureBox.Margin = new System.Windows.Forms.Padding(4);
             this.iconPictureBox.Name = "iconPictureBox";
             this.iconPictureBox.Size = new System.Drawing.Size(133, 125);
@@ -49,8 +50,9 @@ namespace GhostDist.Forms
             // 
             // titleLabel
             // 
+            this.titleLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.titleLabel.Font = new System.Drawing.Font("MS UI Gothic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.titleLabel.Location = new System.Drawing.Point(27, 162);
+            this.titleLabel.Location = new System.Drawing.Point(-41, 162);
             this.titleLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.titleLabel.Name = "titleLabel";
             this.titleLabel.Size = new System.Drawing.Size(533, 38);
@@ -60,8 +62,9 @@ namespace GhostDist.Forms
             // 
             // versionLabel
             // 
+            this.versionLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.versionLabel.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.versionLabel.Location = new System.Drawing.Point(27, 206);
+            this.versionLabel.Location = new System.Drawing.Point(-41, 206);
             this.versionLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(533, 25);
@@ -71,7 +74,8 @@ namespace GhostDist.Forms
             // 
             // urlTextLabel
             // 
-            this.urlTextLabel.Location = new System.Drawing.Point(107, 238);
+            this.urlTextLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.urlTextLabel.Location = new System.Drawing.Point(39, 238);
             this.urlTextLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.urlTextLabel.Name = "urlTextLabel";
             this.urlTextLabel.Size = new System.Drawing.Size(120, 25);
@@ -82,9 +86,10 @@ namespace GhostDist.Forms
             // linkLabel
             // 
             this.linkLabel.ActiveLinkColor = System.Drawing.Color.Red;
+            this.linkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.linkLabel.Cursor = System.Windows.Forms.Cursors.Hand;
             this.linkLabel.LinkColor = System.Drawing.Color.Blue;
-            this.linkLabel.Location = new System.Drawing.Point(233, 238);
+            this.linkLabel.Location = new System.Drawing.Point(165, 238);
             this.linkLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel.Name = "linkLabel";
             this.linkLabel.Size = new System.Drawing.Size(333, 25);
@@ -97,8 +102,9 @@ namespace GhostDist.Forms
             // 
             // okButton
             // 
+            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(227, 275);
+            this.okButton.Location = new System.Drawing.Point(159, 275);
             this.okButton.Margin = new System.Windows.Forms.Padding(4);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(133, 38);
@@ -111,7 +117,7 @@ namespace GhostDist.Forms
             this.AcceptButton = this.okButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(600, 350);
+            this.ClientSize = new System.Drawing.Size(464, 350);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.linkLabel);
             this.Controls.Add(this.urlTextLabel);
@@ -123,6 +129,7 @@ namespace GhostDist.Forms
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AboutDialog";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "バージョン情報";
             ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox)).EndInit();

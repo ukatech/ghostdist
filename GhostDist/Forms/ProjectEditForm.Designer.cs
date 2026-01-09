@@ -81,11 +81,11 @@ namespace GhostDist.Forms
             this.narNameLabel = new System.Windows.Forms.Label();
             this.narLocateButton = new System.Windows.Forms.Button();
             this.fileGroupBox = new System.Windows.Forms.GroupBox();
-            this.previewButton = new System.Windows.Forms.Button();
             this.escapeNameMemo = new System.Windows.Forms.TextBox();
             this.escapeNameLabel = new System.Windows.Forms.Label();
             this.processNameMemo = new System.Windows.Forms.TextBox();
             this.processNameLabel = new System.Windows.Forms.Label();
+            this.previewButton = new System.Windows.Forms.Button();
             this.defaultCheckBox = new System.Windows.Forms.CheckBox();
             this.okButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
@@ -97,7 +97,7 @@ namespace GhostDist.Forms
             // 
             this.networkRadio.AutoSize = true;
             this.networkRadio.Checked = true;
-            this.networkRadio.Location = new System.Drawing.Point(203, 30);
+            this.networkRadio.Location = new System.Drawing.Point(203, 45);
             this.networkRadio.Margin = new System.Windows.Forms.Padding(4);
             this.networkRadio.Name = "networkRadio";
             this.networkRadio.Size = new System.Drawing.Size(250, 19);
@@ -110,7 +110,7 @@ namespace GhostDist.Forms
             // narUpRadio
             // 
             this.narUpRadio.AutoSize = true;
-            this.narUpRadio.Location = new System.Drawing.Point(203, 58);
+            this.narUpRadio.Location = new System.Drawing.Point(203, 73);
             this.narUpRadio.Margin = new System.Windows.Forms.Padding(4);
             this.narUpRadio.Name = "narUpRadio";
             this.narUpRadio.Size = new System.Drawing.Size(311, 19);
@@ -122,7 +122,7 @@ namespace GhostDist.Forms
             // narCreateRadio
             // 
             this.narCreateRadio.AutoSize = true;
-            this.narCreateRadio.Location = new System.Drawing.Point(203, 85);
+            this.narCreateRadio.Location = new System.Drawing.Point(203, 100);
             this.narCreateRadio.Margin = new System.Windows.Forms.Padding(4);
             this.narCreateRadio.Name = "narCreateRadio";
             this.narCreateRadio.Size = new System.Drawing.Size(212, 19);
@@ -133,7 +133,7 @@ namespace GhostDist.Forms
             // 
             // nameEdit
             // 
-            this.nameEdit.Location = new System.Drawing.Point(203, 0);
+            this.nameEdit.Location = new System.Drawing.Point(203, 13);
             this.nameEdit.Margin = new System.Windows.Forms.Padding(4);
             this.nameEdit.Name = "nameEdit";
             this.nameEdit.Size = new System.Drawing.Size(363, 22);
@@ -142,7 +142,7 @@ namespace GhostDist.Forms
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
-            this.nameLabel.Location = new System.Drawing.Point(16, 4);
+            this.nameLabel.Location = new System.Drawing.Point(16, 17);
             this.nameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.nameLabel.Name = "nameLabel";
             this.nameLabel.Size = new System.Drawing.Size(60, 15);
@@ -151,7 +151,7 @@ namespace GhostDist.Forms
             // 
             // targetFolderEdit
             // 
-            this.targetFolderEdit.Location = new System.Drawing.Point(203, 115);
+            this.targetFolderEdit.Location = new System.Drawing.Point(203, 130);
             this.targetFolderEdit.Margin = new System.Windows.Forms.Padding(4);
             this.targetFolderEdit.Name = "targetFolderEdit";
             this.targetFolderEdit.Size = new System.Drawing.Size(501, 22);
@@ -160,7 +160,7 @@ namespace GhostDist.Forms
             // targetFolderLabel
             // 
             this.targetFolderLabel.AutoSize = true;
-            this.targetFolderLabel.Location = new System.Drawing.Point(16, 119);
+            this.targetFolderLabel.Location = new System.Drawing.Point(16, 134);
             this.targetFolderLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.targetFolderLabel.Name = "targetFolderLabel";
             this.targetFolderLabel.Size = new System.Drawing.Size(102, 15);
@@ -169,7 +169,7 @@ namespace GhostDist.Forms
             // 
             // targetFolderLocateButton
             // 
-            this.targetFolderLocateButton.Location = new System.Drawing.Point(715, 112);
+            this.targetFolderLocateButton.Location = new System.Drawing.Point(715, 127);
             this.targetFolderLocateButton.Margin = new System.Windows.Forms.Padding(4);
             this.targetFolderLocateButton.Name = "targetFolderLocateButton";
             this.targetFolderLocateButton.Size = new System.Drawing.Size(100, 29);
@@ -190,7 +190,7 @@ namespace GhostDist.Forms
             this.serverGroupBox.Controls.Add(this.idLabel);
             this.serverGroupBox.Controls.Add(this.serverEdit);
             this.serverGroupBox.Controls.Add(this.serverLabel);
-            this.serverGroupBox.Location = new System.Drawing.Point(11, 239);
+            this.serverGroupBox.Location = new System.Drawing.Point(11, 254);
             this.serverGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.serverGroupBox.Name = "serverGroupBox";
             this.serverGroupBox.Padding = new System.Windows.Forms.Padding(4);
@@ -301,7 +301,7 @@ namespace GhostDist.Forms
             // 
             // upDirEdit
             // 
-            this.upDirEdit.Location = new System.Drawing.Point(203, 146);
+            this.upDirEdit.Location = new System.Drawing.Point(203, 161);
             this.upDirEdit.Margin = new System.Windows.Forms.Padding(4);
             this.upDirEdit.Name = "upDirEdit";
             this.upDirEdit.Size = new System.Drawing.Size(501, 22);
@@ -311,7 +311,7 @@ namespace GhostDist.Forms
             // upDirLabel
             // 
             this.upDirLabel.AutoSize = true;
-            this.upDirLabel.Location = new System.Drawing.Point(16, 150);
+            this.upDirLabel.Location = new System.Drawing.Point(16, 165);
             this.upDirLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.upDirLabel.Name = "upDirLabel";
             this.upDirLabel.Size = new System.Drawing.Size(171, 15);
@@ -320,7 +320,7 @@ namespace GhostDist.Forms
             // 
             // htmlEdit
             // 
-            this.htmlEdit.Location = new System.Drawing.Point(203, 178);
+            this.htmlEdit.Location = new System.Drawing.Point(203, 193);
             this.htmlEdit.Margin = new System.Windows.Forms.Padding(4);
             this.htmlEdit.Name = "htmlEdit";
             this.htmlEdit.Size = new System.Drawing.Size(501, 22);
@@ -329,7 +329,7 @@ namespace GhostDist.Forms
             // htmlLabel
             // 
             this.htmlLabel.AutoSize = true;
-            this.htmlLabel.Location = new System.Drawing.Point(16, 181);
+            this.htmlLabel.Location = new System.Drawing.Point(16, 196);
             this.htmlLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.htmlLabel.Name = "htmlLabel";
             this.htmlLabel.Size = new System.Drawing.Size(176, 15);
@@ -338,7 +338,7 @@ namespace GhostDist.Forms
             // 
             // htmlLocateButton
             // 
-            this.htmlLocateButton.Location = new System.Drawing.Point(715, 175);
+            this.htmlLocateButton.Location = new System.Drawing.Point(715, 190);
             this.htmlLocateButton.Margin = new System.Windows.Forms.Padding(4);
             this.htmlLocateButton.Name = "htmlLocateButton";
             this.htmlLocateButton.Size = new System.Drawing.Size(100, 29);
@@ -349,7 +349,7 @@ namespace GhostDist.Forms
             // 
             // narNameEdit
             // 
-            this.narNameEdit.Location = new System.Drawing.Point(203, 209);
+            this.narNameEdit.Location = new System.Drawing.Point(203, 224);
             this.narNameEdit.Margin = new System.Windows.Forms.Padding(4);
             this.narNameEdit.Name = "narNameEdit";
             this.narNameEdit.Size = new System.Drawing.Size(501, 22);
@@ -358,7 +358,7 @@ namespace GhostDist.Forms
             // narNameLabel
             // 
             this.narNameLabel.AutoSize = true;
-            this.narNameLabel.Location = new System.Drawing.Point(16, 212);
+            this.narNameLabel.Location = new System.Drawing.Point(16, 227);
             this.narNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.narNameLabel.Name = "narNameLabel";
             this.narNameLabel.Size = new System.Drawing.Size(130, 15);
@@ -367,7 +367,7 @@ namespace GhostDist.Forms
             // 
             // narLocateButton
             // 
-            this.narLocateButton.Location = new System.Drawing.Point(715, 206);
+            this.narLocateButton.Location = new System.Drawing.Point(715, 221);
             this.narLocateButton.Margin = new System.Windows.Forms.Padding(4);
             this.narLocateButton.Name = "narLocateButton";
             this.narLocateButton.Size = new System.Drawing.Size(100, 29);
@@ -378,42 +378,37 @@ namespace GhostDist.Forms
             // 
             // fileGroupBox
             // 
+            this.fileGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.fileGroupBox.Controls.Add(this.escapeNameMemo);
             this.fileGroupBox.Controls.Add(this.escapeNameLabel);
             this.fileGroupBox.Controls.Add(this.processNameMemo);
             this.fileGroupBox.Controls.Add(this.processNameLabel);
-            this.fileGroupBox.Location = new System.Drawing.Point(11, 366);
+            this.fileGroupBox.Location = new System.Drawing.Point(11, 381);
             this.fileGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.fileGroupBox.Name = "fileGroupBox";
             this.fileGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.fileGroupBox.Size = new System.Drawing.Size(812, 301);
+            this.fileGroupBox.Size = new System.Drawing.Size(812, 306);
             this.fileGroupBox.TabIndex = 16;
             this.fileGroupBox.TabStop = false;
             this.fileGroupBox.Text = "対象ファイル";
             // 
-            // previewButton
-            // 
-            this.previewButton.Location = new System.Drawing.Point(11, 678);
-            this.previewButton.Margin = new System.Windows.Forms.Padding(4);
-            this.previewButton.Name = "previewButton";
-            this.previewButton.Size = new System.Drawing.Size(284, 29);
-            this.previewButton.TabIndex = 4;
-            this.previewButton.Text = "フィルタリング結果をプレビュー(&K)";
-            this.previewButton.UseVisualStyleBackColor = true;
-            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
-            // 
             // escapeNameMemo
             // 
+            this.escapeNameMemo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.escapeNameMemo.Location = new System.Drawing.Point(405, 50);
             this.escapeNameMemo.Margin = new System.Windows.Forms.Padding(4);
             this.escapeNameMemo.Multiline = true;
             this.escapeNameMemo.Name = "escapeNameMemo";
             this.escapeNameMemo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.escapeNameMemo.Size = new System.Drawing.Size(395, 240);
+            this.escapeNameMemo.Size = new System.Drawing.Size(395, 245);
             this.escapeNameMemo.TabIndex = 3;
             // 
             // escapeNameLabel
             // 
+            this.escapeNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.escapeNameLabel.AutoSize = true;
             this.escapeNameLabel.Location = new System.Drawing.Point(405, 26);
             this.escapeNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
@@ -424,12 +419,14 @@ namespace GhostDist.Forms
             // 
             // processNameMemo
             // 
+            this.processNameMemo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.processNameMemo.Location = new System.Drawing.Point(11, 50);
             this.processNameMemo.Margin = new System.Windows.Forms.Padding(4);
             this.processNameMemo.Multiline = true;
             this.processNameMemo.Name = "processNameMemo";
             this.processNameMemo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.processNameMemo.Size = new System.Drawing.Size(373, 240);
+            this.processNameMemo.Size = new System.Drawing.Size(373, 245);
             this.processNameMemo.TabIndex = 1;
             // 
             // processNameLabel
@@ -442,12 +439,24 @@ namespace GhostDist.Forms
             this.processNameLabel.TabIndex = 0;
             this.processNameLabel.Text = "処理ファイル名条件(&P):";
             // 
+            // previewButton
+            // 
+            this.previewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.previewButton.Location = new System.Drawing.Point(11, 698);
+            this.previewButton.Margin = new System.Windows.Forms.Padding(4);
+            this.previewButton.Name = "previewButton";
+            this.previewButton.Size = new System.Drawing.Size(284, 29);
+            this.previewButton.TabIndex = 4;
+            this.previewButton.Text = "フィルタリング結果をプレビュー(&K)";
+            this.previewButton.UseVisualStyleBackColor = true;
+            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
+            // 
             // defaultCheckBox
             // 
             this.defaultCheckBox.AutoSize = true;
             this.defaultCheckBox.Checked = true;
             this.defaultCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.defaultCheckBox.Location = new System.Drawing.Point(587, 4);
+            this.defaultCheckBox.Location = new System.Drawing.Point(587, 17);
             this.defaultCheckBox.Margin = new System.Windows.Forms.Padding(4);
             this.defaultCheckBox.Name = "defaultCheckBox";
             this.defaultCheckBox.Size = new System.Drawing.Size(169, 19);
@@ -457,7 +466,8 @@ namespace GhostDist.Forms
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(708, 676);
+            this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.okButton.Location = new System.Drawing.Point(708, 696);
             this.okButton.Margin = new System.Windows.Forms.Padding(4);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(115, 31);
@@ -468,8 +478,9 @@ namespace GhostDist.Forms
             // 
             // cancelButton
             // 
+            this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(580, 676);
+            this.cancelButton.Location = new System.Drawing.Point(580, 696);
             this.cancelButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(115, 31);
@@ -483,7 +494,7 @@ namespace GhostDist.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(839, 719);
+            this.ClientSize = new System.Drawing.Size(839, 740);
             this.Controls.Add(this.previewButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
@@ -512,7 +523,6 @@ namespace GhostDist.Forms
             this.MinimizeBox = false;
             this.Name = "ProjectEditForm";
             this.ShowInTaskbar = false;
-            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "プロジェクト編集";
             this.serverGroupBox.ResumeLayout(false);
