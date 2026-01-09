@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using GhostDist.Models;
 using GhostDist.Utilities;
@@ -71,6 +73,28 @@ namespace GhostDist.Services
                     var shiftJisEncoding = Encoding.GetEncoding("Shift_JIS");
                     ZipStrings.CodePage = shiftJisEncoding.CodePage;
 
+                    // ディレクトリを収集（重複を排除）
+                    var directories = new HashSet<string>();
+                    foreach (var file in updates.Files)
+                    {
+                        var entryName = file.RelativePath.Replace('\\', '/');
+                        var parts = entryName.Split('/');
+
+                        // 親ディレクトリを全て収集
+                        for (int i = 0; i < parts.Length - 1; i++)
+                        {
+                            var dirPath = string.Join("/", parts.Take(i + 1)) + "/";
+                            directories.Add(dirPath);
+                        }
+                    }
+
+                    // ディレクトリエントリを先に追加（アルファベット順）
+                    foreach (var dirPath in directories.OrderBy(d => d))
+                    {
+                        AddDirectoryEntry(zipOutput, dirPath, targetFolder, shiftJisEncoding);
+                    }
+
+                    // ファイルエントリを追加
                     foreach (var file in updates.Files)
                     {
                         // アーカイブ内のパス（相対パス、スラッシュ区切り）
@@ -78,30 +102,33 @@ namespace GhostDist.Services
 
                         // エントリ作成
                         var entry = new ZipEntry(entryName);
-                        entry.DateTime = File.GetLastWriteTime(file.LocalPath);
-                        entry.Size = new FileInfo(file.LocalPath).Length;
+                        var fileInfo = new FileInfo(file.LocalPath);
+                        entry.DateTime = fileInfo.LastWriteTime;
+                        entry.Size = fileInfo.Length;
+
+                        // Extra Fieldsを追加
+                        var extraFields = new List<byte[]>();
+
+                        // NTFS Timestamp Extra Field追加
+                        var ntfsTimestamp = NtfsTimestampExtraField.Create(
+                            fileInfo.LastWriteTime,
+                            fileInfo.LastAccessTime,
+                            fileInfo.CreationTime
+                        );
+                        extraFields.Add(ntfsTimestamp);
 
                         // Unicode Path Extra Field追加（Shift_JISで表現できない文字がある場合）
                         if (RequiresUnicodeSupport(entryName, shiftJisEncoding))
                         {
                             var shiftJisBytes = shiftJisEncoding.GetBytes(entryName);
                             var unicodeExtraField = UnicodePathExtraField.Create(entryName, shiftJisBytes);
-
-                            // 既存のExtraDataと結合（存在する場合）
-                            if (entry.ExtraData != null && entry.ExtraData.Length > 0)
-                            {
-                                var combined = new byte[entry.ExtraData.Length + unicodeExtraField.Length];
-                                Array.Copy(entry.ExtraData, 0, combined, 0, entry.ExtraData.Length);
-                                Array.Copy(unicodeExtraField, 0, combined, entry.ExtraData.Length, unicodeExtraField.Length);
-                                entry.ExtraData = combined;
-                            }
-                            else
-                            {
-                                entry.ExtraData = unicodeExtraField;
-                            }
+                            extraFields.Add(unicodeExtraField);
 
                             OnLogMessage($"Unicode対応: {entryName}");
                         }
+
+                        // すべてのExtra Fieldsを結合
+                        entry.ExtraData = CombineExtraFields(extraFields);
 
                         zipOutput.PutNextEntry(entry);
 
@@ -157,6 +184,85 @@ namespace GhostDist.Services
                 .Replace("%hour", now.Hour.ToString("00"))
                 .Replace("%minute", now.Minute.ToString("00"))
                 .Replace("%second", now.Second.ToString("00"));
+        }
+
+        /// <summary>
+        /// ディレクトリエントリをZIPに追加
+        /// </summary>
+        /// <param name="zipOutput">ZIPストリーム</param>
+        /// <param name="dirPath">ディレクトリパス（末尾に/を含む）</param>
+        /// <param name="targetFolder">対象フォルダ</param>
+        /// <param name="shiftJisEncoding">Shift_JISエンコーディング</param>
+        private void AddDirectoryEntry(ZipOutputStream zipOutput, string dirPath, string targetFolder, Encoding shiftJisEncoding)
+        {
+            // ディレクトリエントリ作成（末尾に/を付ける）
+            var entry = new ZipEntry(dirPath);
+            entry.DateTime = DateTime.Now;
+            entry.Size = 0;
+
+            // ディレクトリの実際のパスを取得（タイムスタンプ取得用）
+            var localDirPath = Path.Combine(targetFolder, dirPath.Replace('/', '\\').TrimEnd('\\'));
+            DirectoryInfo dirInfo = null;
+            if (Directory.Exists(localDirPath))
+            {
+                dirInfo = new DirectoryInfo(localDirPath);
+                entry.DateTime = dirInfo.LastWriteTime;
+            }
+
+            // Extra Fieldsを追加
+            var extraFields = new List<byte[]>();
+
+            // NTFS Timestamp Extra Field追加（ディレクトリが存在する場合）
+            if (dirInfo != null)
+            {
+                var ntfsTimestamp = NtfsTimestampExtraField.Create(
+                    dirInfo.LastWriteTime,
+                    dirInfo.LastAccessTime,
+                    dirInfo.CreationTime
+                );
+                extraFields.Add(ntfsTimestamp);
+            }
+
+            // Unicode Path Extra Field追加（Shift_JISで表現できない文字がある場合）
+            if (RequiresUnicodeSupport(dirPath, shiftJisEncoding))
+            {
+                var shiftJisBytes = shiftJisEncoding.GetBytes(dirPath);
+                var unicodeExtraField = UnicodePathExtraField.Create(dirPath, shiftJisBytes);
+                extraFields.Add(unicodeExtraField);
+
+                OnLogMessage($"Unicode対応 (ディレクトリ): {dirPath}");
+            }
+
+            // すべてのExtra Fieldsを結合
+            entry.ExtraData = CombineExtraFields(extraFields);
+
+            zipOutput.PutNextEntry(entry);
+            zipOutput.CloseEntry();
+        }
+
+        /// <summary>
+        /// 複数のExtra Fieldバイト配列を結合
+        /// </summary>
+        /// <param name="extraFields">Extra Fieldのリスト</param>
+        /// <returns>結合されたバイト配列</returns>
+        private byte[] CombineExtraFields(List<byte[]> extraFields)
+        {
+            if (extraFields == null || extraFields.Count == 0)
+            {
+                return null;
+            }
+
+            var totalLength = extraFields.Sum(ef => ef.Length);
+            var combined = new byte[totalLength];
+            var offset = 0;
+
+            foreach (var extraField in extraFields)
+            {
+                Array.Copy(extraField, 0, combined, offset, extraField.Length);
+                offset += extraField.Length;
+            }
+
+            return combined;
         }
 
         /// <summary>
