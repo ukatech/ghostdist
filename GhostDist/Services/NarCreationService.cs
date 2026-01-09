@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Text;
 using GhostDist.Models;
+using GhostDist.Utilities;
 using ICSharpCode.SharpZipLib.Zip;
 
 namespace GhostDist.Services
@@ -66,8 +67,9 @@ namespace GhostDist.Services
                     zipOutput.SetLevel(9); // 最高圧縮レベル
                     zipOutput.IsStreamOwner = true;
 
-                    // Shift_JISエンコーディング設定
-                    ZipStrings.CodePage = Encoding.GetEncoding("Shift_JIS").CodePage;
+                    // Shift_JISエンコーディング設定（後方互換性のため維持）
+                    var shiftJisEncoding = Encoding.GetEncoding("Shift_JIS");
+                    ZipStrings.CodePage = shiftJisEncoding.CodePage;
 
                     foreach (var file in updates.Files)
                     {
@@ -78,6 +80,28 @@ namespace GhostDist.Services
                         var entry = new ZipEntry(entryName);
                         entry.DateTime = File.GetLastWriteTime(file.LocalPath);
                         entry.Size = new FileInfo(file.LocalPath).Length;
+
+                        // Unicode Path Extra Field追加（Shift_JISで表現できない文字がある場合）
+                        if (RequiresUnicodeSupport(entryName, shiftJisEncoding))
+                        {
+                            var shiftJisBytes = shiftJisEncoding.GetBytes(entryName);
+                            var unicodeExtraField = UnicodePathExtraField.Create(entryName, shiftJisBytes);
+
+                            // 既存のExtraDataと結合（存在する場合）
+                            if (entry.ExtraData != null && entry.ExtraData.Length > 0)
+                            {
+                                var combined = new byte[entry.ExtraData.Length + unicodeExtraField.Length];
+                                Array.Copy(entry.ExtraData, 0, combined, 0, entry.ExtraData.Length);
+                                Array.Copy(unicodeExtraField, 0, combined, entry.ExtraData.Length, unicodeExtraField.Length);
+                                entry.ExtraData = combined;
+                            }
+                            else
+                            {
+                                entry.ExtraData = unicodeExtraField;
+                            }
+
+                            OnLogMessage($"Unicode対応: {entryName}");
+                        }
 
                         zipOutput.PutNextEntry(entry);
 
@@ -133,6 +157,30 @@ namespace GhostDist.Services
                 .Replace("%hour", now.Hour.ToString("00"))
                 .Replace("%minute", now.Minute.ToString("00"))
                 .Replace("%second", now.Second.ToString("00"));
+        }
+
+        /// <summary>
+        /// ファイル名がShift_JISで正確に表現できるか判定
+        /// </summary>
+        /// <param name="filename">判定対象のファイル名</param>
+        /// <param name="shiftJisEncoding">Shift_JISエンコーディング</param>
+        /// <returns>Unicode対応が必要な場合true</returns>
+        private bool RequiresUnicodeSupport(string filename, Encoding shiftJisEncoding)
+        {
+            try
+            {
+                // Shift_JISでエンコード→デコードして元に戻るか確認
+                var bytes = shiftJisEncoding.GetBytes(filename);
+                var decoded = shiftJisEncoding.GetString(bytes);
+
+                // 完全一致しない場合はUnicode必須
+                return decoded != filename;
+            }
+            catch
+            {
+                // エンコード失敗 = Unicode必須
+                return true;
+            }
         }
 
         protected virtual void OnLogMessage(string message)
