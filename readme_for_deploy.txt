@@ -139,6 +139,5 @@ ghostdist.exeが存在するのと同じ階層にINIファイルが存在する�
 
 [ukatech/github管理]
 
-2026.01.09 0.2.0.0
-　互換性をなるべく保ったまま、dotnet/C#に移行
-　フィルタプレビュー機能追加
+以降はこちらをご覧ください。
+https://github.com/ukatech/ghostdist/releases
