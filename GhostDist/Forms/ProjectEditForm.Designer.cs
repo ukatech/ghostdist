@@ -41,6 +41,12 @@ namespace GhostDist.Forms
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button previewButton;
+        private System.Windows.Forms.RadioButton ftpRadio;
+        private System.Windows.Forms.RadioButton nanaloaderRadio;
+        private System.Windows.Forms.TextBox ghostIdEdit;
+        private System.Windows.Forms.Label ghostIdLabel;
+        private System.Windows.Forms.TextBox uploadUrlEdit;
+        private System.Windows.Forms.Label uploadUrlLabel;
 
         protected override void Dispose(bool disposing)
         {
@@ -72,6 +78,12 @@ namespace GhostDist.Forms
             this.idLabel = new System.Windows.Forms.Label();
             this.serverEdit = new System.Windows.Forms.TextBox();
             this.serverLabel = new System.Windows.Forms.Label();
+            this.ftpRadio = new System.Windows.Forms.RadioButton();
+            this.nanaloaderRadio = new System.Windows.Forms.RadioButton();
+            this.ghostIdLabel = new System.Windows.Forms.Label();
+            this.ghostIdEdit = new System.Windows.Forms.TextBox();
+            this.uploadUrlLabel = new System.Windows.Forms.Label();
+            this.uploadUrlEdit = new System.Windows.Forms.TextBox();
             this.upDirEdit = new System.Windows.Forms.TextBox();
             this.upDirLabel = new System.Windows.Forms.Label();
             this.htmlEdit = new System.Windows.Forms.TextBox();
@@ -110,7 +122,7 @@ namespace GhostDist.Forms
             // narUpRadio
             // 
             this.narUpRadio.AutoSize = true;
-            this.narUpRadio.Location = new System.Drawing.Point(203, 73);
+            this.narUpRadio.Location = new System.Drawing.Point(203, 72);
             this.narUpRadio.Margin = new System.Windows.Forms.Padding(4);
             this.narUpRadio.Name = "narUpRadio";
             this.narUpRadio.Size = new System.Drawing.Size(311, 19);
@@ -122,7 +134,7 @@ namespace GhostDist.Forms
             // narCreateRadio
             // 
             this.narCreateRadio.AutoSize = true;
-            this.narCreateRadio.Location = new System.Drawing.Point(203, 100);
+            this.narCreateRadio.Location = new System.Drawing.Point(203, 99);
             this.narCreateRadio.Margin = new System.Windows.Forms.Padding(4);
             this.narCreateRadio.Name = "narCreateRadio";
             this.narCreateRadio.Size = new System.Drawing.Size(212, 19);
@@ -190,18 +202,22 @@ namespace GhostDist.Forms
             this.serverGroupBox.Controls.Add(this.idLabel);
             this.serverGroupBox.Controls.Add(this.serverEdit);
             this.serverGroupBox.Controls.Add(this.serverLabel);
-            this.serverGroupBox.Location = new System.Drawing.Point(11, 254);
+            this.serverGroupBox.Controls.Add(this.ftpRadio);
+            this.serverGroupBox.Controls.Add(this.nanaloaderRadio);
+            this.serverGroupBox.Controls.Add(this.uploadUrlLabel);
+            this.serverGroupBox.Controls.Add(this.uploadUrlEdit);
+            this.serverGroupBox.Location = new System.Drawing.Point(11, 292);
             this.serverGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.serverGroupBox.Name = "serverGroupBox";
             this.serverGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.serverGroupBox.Size = new System.Drawing.Size(812, 119);
+            this.serverGroupBox.Size = new System.Drawing.Size(812, 188);
             this.serverGroupBox.TabIndex = 15;
             this.serverGroupBox.TabStop = false;
             this.serverGroupBox.Text = "サーバー設定";
             // 
             // setDefaultButton
             // 
-            this.setDefaultButton.Location = new System.Drawing.Point(555, 80);
+            this.setDefaultButton.Location = new System.Drawing.Point(425, 16);
             this.setDefaultButton.Margin = new System.Windows.Forms.Padding(4);
             this.setDefaultButton.Name = "setDefaultButton";
             this.setDefaultButton.Size = new System.Drawing.Size(247, 31);
@@ -213,7 +229,7 @@ namespace GhostDist.Forms
             // useDefaultFTPCheck
             // 
             this.useDefaultFTPCheck.AutoSize = true;
-            this.useDefaultFTPCheck.Location = new System.Drawing.Point(555, 50);
+            this.useDefaultFTPCheck.Location = new System.Drawing.Point(262, 24);
             this.useDefaultFTPCheck.Margin = new System.Windows.Forms.Padding(4);
             this.useDefaultFTPCheck.Name = "useDefaultFTPCheck";
             this.useDefaultFTPCheck.Size = new System.Drawing.Size(142, 19);
@@ -225,7 +241,7 @@ namespace GhostDist.Forms
             // sslCheck
             // 
             this.sslCheck.AutoSize = true;
-            this.sslCheck.Location = new System.Drawing.Point(330, 87);
+            this.sslCheck.Location = new System.Drawing.Point(559, 68);
             this.sslCheck.Margin = new System.Windows.Forms.Padding(4);
             this.sslCheck.Name = "sslCheck";
             this.sslCheck.Size = new System.Drawing.Size(73, 19);
@@ -236,7 +252,7 @@ namespace GhostDist.Forms
             // passiveCheck
             // 
             this.passiveCheck.AutoSize = true;
-            this.passiveCheck.Location = new System.Drawing.Point(330, 57);
+            this.passiveCheck.Location = new System.Drawing.Point(425, 67);
             this.passiveCheck.Margin = new System.Windows.Forms.Padding(4);
             this.passiveCheck.Name = "passiveCheck";
             this.passiveCheck.Size = new System.Drawing.Size(126, 19);
@@ -246,7 +262,7 @@ namespace GhostDist.Forms
             // 
             // passwordEdit
             // 
-            this.passwordEdit.Location = new System.Drawing.Point(116, 83);
+            this.passwordEdit.Location = new System.Drawing.Point(121, 155);
             this.passwordEdit.Margin = new System.Windows.Forms.Padding(4);
             this.passwordEdit.Name = "passwordEdit";
             this.passwordEdit.PasswordChar = '*';
@@ -256,7 +272,7 @@ namespace GhostDist.Forms
             // passwordLabel
             // 
             this.passwordLabel.AutoSize = true;
-            this.passwordLabel.Location = new System.Drawing.Point(7, 87);
+            this.passwordLabel.Location = new System.Drawing.Point(11, 158);
             this.passwordLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.passwordLabel.Name = "passwordLabel";
             this.passwordLabel.Size = new System.Drawing.Size(86, 15);
@@ -265,7 +281,7 @@ namespace GhostDist.Forms
             // 
             // idEdit
             // 
-            this.idEdit.Location = new System.Drawing.Point(116, 53);
+            this.idEdit.Location = new System.Drawing.Point(121, 125);
             this.idEdit.Margin = new System.Windows.Forms.Padding(4);
             this.idEdit.Name = "idEdit";
             this.idEdit.Size = new System.Drawing.Size(160, 22);
@@ -274,7 +290,7 @@ namespace GhostDist.Forms
             // idLabel
             // 
             this.idLabel.AutoSize = true;
-            this.idLabel.Location = new System.Drawing.Point(7, 57);
+            this.idLabel.Location = new System.Drawing.Point(11, 128);
             this.idLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.idLabel.Name = "idLabel";
             this.idLabel.Size = new System.Drawing.Size(24, 15);
@@ -283,7 +299,7 @@ namespace GhostDist.Forms
             // 
             // serverEdit
             // 
-            this.serverEdit.Location = new System.Drawing.Point(116, 23);
+            this.serverEdit.Location = new System.Drawing.Point(121, 65);
             this.serverEdit.Margin = new System.Windows.Forms.Padding(4);
             this.serverEdit.Name = "serverEdit";
             this.serverEdit.Size = new System.Drawing.Size(288, 22);
@@ -292,26 +308,88 @@ namespace GhostDist.Forms
             // serverLabel
             // 
             this.serverLabel.AutoSize = true;
-            this.serverLabel.Location = new System.Drawing.Point(7, 27);
+            this.serverLabel.Location = new System.Drawing.Point(11, 68);
             this.serverLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.serverLabel.Name = "serverLabel";
             this.serverLabel.Size = new System.Drawing.Size(78, 15);
             this.serverLabel.TabIndex = 0;
             this.serverLabel.Text = "サーバー(&S):";
             // 
+            // ftpRadio
+            // 
+            this.ftpRadio.AutoSize = true;
+            this.ftpRadio.Checked = true;
+            this.ftpRadio.Location = new System.Drawing.Point(11, 23);
+            this.ftpRadio.Margin = new System.Windows.Forms.Padding(4);
+            this.ftpRadio.Name = "ftpRadio";
+            this.ftpRadio.Size = new System.Drawing.Size(72, 19);
+            this.ftpRadio.TabIndex = 10;
+            this.ftpRadio.TabStop = true;
+            this.ftpRadio.Text = "FTP(&F)";
+            this.ftpRadio.UseVisualStyleBackColor = true;
+            this.ftpRadio.CheckedChanged += new System.EventHandler(this.ftpRadio_CheckedChanged);
+            // 
+            // nanaloaderRadio
+            // 
+            this.nanaloaderRadio.AutoSize = true;
+            this.nanaloaderRadio.Location = new System.Drawing.Point(110, 23);
+            this.nanaloaderRadio.Margin = new System.Windows.Forms.Padding(4);
+            this.nanaloaderRadio.Name = "nanaloaderRadio";
+            this.nanaloaderRadio.Size = new System.Drawing.Size(102, 19);
+            this.nanaloaderRadio.TabIndex = 11;
+            this.nanaloaderRadio.Text = "ななろだ (&N)";
+            this.nanaloaderRadio.UseVisualStyleBackColor = true;
+            this.nanaloaderRadio.CheckedChanged += new System.EventHandler(this.nanaloaderRadio_CheckedChanged);
+            // 
+            // ghostIdLabel
+            // 
+            this.ghostIdLabel.AutoSize = true;
+            this.ghostIdLabel.Location = new System.Drawing.Point(13, 253);
+            this.ghostIdLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ghostIdLabel.Name = "ghostIdLabel";
+            this.ghostIdLabel.Size = new System.Drawing.Size(118, 15);
+            this.ghostIdLabel.TabIndex = 12;
+            this.ghostIdLabel.Text = "ななろだアイテムID:";
+            // 
+            // ghostIdEdit
+            // 
+            this.ghostIdEdit.Location = new System.Drawing.Point(203, 250);
+            this.ghostIdEdit.Margin = new System.Windows.Forms.Padding(4);
+            this.ghostIdEdit.Name = "ghostIdEdit";
+            this.ghostIdEdit.Size = new System.Drawing.Size(311, 22);
+            this.ghostIdEdit.TabIndex = 13;
+            // 
+            // uploadUrlLabel
+            // 
+            this.uploadUrlLabel.AutoSize = true;
+            this.uploadUrlLabel.Location = new System.Drawing.Point(11, 98);
+            this.uploadUrlLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.uploadUrlLabel.Name = "uploadUrlLabel";
+            this.uploadUrlLabel.Size = new System.Drawing.Size(102, 15);
+            this.uploadUrlLabel.TabIndex = 14;
+            this.uploadUrlLabel.Text = "アップロードURL:";
+            // 
+            // uploadUrlEdit
+            // 
+            this.uploadUrlEdit.Location = new System.Drawing.Point(121, 95);
+            this.uploadUrlEdit.Margin = new System.Windows.Forms.Padding(4);
+            this.uploadUrlEdit.Name = "uploadUrlEdit";
+            this.uploadUrlEdit.Size = new System.Drawing.Size(620, 22);
+            this.uploadUrlEdit.TabIndex = 15;
+            // 
             // upDirEdit
             // 
-            this.upDirEdit.Location = new System.Drawing.Point(203, 161);
+            this.upDirEdit.Location = new System.Drawing.Point(203, 160);
             this.upDirEdit.Margin = new System.Windows.Forms.Padding(4);
             this.upDirEdit.Name = "upDirEdit";
-            this.upDirEdit.Size = new System.Drawing.Size(501, 22);
+            this.upDirEdit.Size = new System.Drawing.Size(311, 22);
             this.upDirEdit.TabIndex = 9;
             this.upDirEdit.Text = "/";
             // 
             // upDirLabel
             // 
             this.upDirLabel.AutoSize = true;
-            this.upDirLabel.Location = new System.Drawing.Point(16, 165);
+            this.upDirLabel.Location = new System.Drawing.Point(16, 164);
             this.upDirLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.upDirLabel.Name = "upDirLabel";
             this.upDirLabel.Size = new System.Drawing.Size(171, 15);
@@ -320,7 +398,7 @@ namespace GhostDist.Forms
             // 
             // htmlEdit
             // 
-            this.htmlEdit.Location = new System.Drawing.Point(203, 193);
+            this.htmlEdit.Location = new System.Drawing.Point(203, 190);
             this.htmlEdit.Margin = new System.Windows.Forms.Padding(4);
             this.htmlEdit.Name = "htmlEdit";
             this.htmlEdit.Size = new System.Drawing.Size(501, 22);
@@ -329,7 +407,7 @@ namespace GhostDist.Forms
             // htmlLabel
             // 
             this.htmlLabel.AutoSize = true;
-            this.htmlLabel.Location = new System.Drawing.Point(16, 196);
+            this.htmlLabel.Location = new System.Drawing.Point(16, 193);
             this.htmlLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.htmlLabel.Name = "htmlLabel";
             this.htmlLabel.Size = new System.Drawing.Size(176, 15);
@@ -338,7 +416,7 @@ namespace GhostDist.Forms
             // 
             // htmlLocateButton
             // 
-            this.htmlLocateButton.Location = new System.Drawing.Point(715, 190);
+            this.htmlLocateButton.Location = new System.Drawing.Point(715, 187);
             this.htmlLocateButton.Margin = new System.Windows.Forms.Padding(4);
             this.htmlLocateButton.Name = "htmlLocateButton";
             this.htmlLocateButton.Size = new System.Drawing.Size(100, 29);
@@ -349,7 +427,7 @@ namespace GhostDist.Forms
             // 
             // narNameEdit
             // 
-            this.narNameEdit.Location = new System.Drawing.Point(203, 224);
+            this.narNameEdit.Location = new System.Drawing.Point(203, 220);
             this.narNameEdit.Margin = new System.Windows.Forms.Padding(4);
             this.narNameEdit.Name = "narNameEdit";
             this.narNameEdit.Size = new System.Drawing.Size(501, 22);
@@ -358,7 +436,7 @@ namespace GhostDist.Forms
             // narNameLabel
             // 
             this.narNameLabel.AutoSize = true;
-            this.narNameLabel.Location = new System.Drawing.Point(16, 227);
+            this.narNameLabel.Location = new System.Drawing.Point(16, 223);
             this.narNameLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.narNameLabel.Name = "narNameLabel";
             this.narNameLabel.Size = new System.Drawing.Size(130, 15);
@@ -367,7 +445,7 @@ namespace GhostDist.Forms
             // 
             // narLocateButton
             // 
-            this.narLocateButton.Location = new System.Drawing.Point(715, 221);
+            this.narLocateButton.Location = new System.Drawing.Point(715, 217);
             this.narLocateButton.Margin = new System.Windows.Forms.Padding(4);
             this.narLocateButton.Name = "narLocateButton";
             this.narLocateButton.Size = new System.Drawing.Size(100, 29);
@@ -385,11 +463,11 @@ namespace GhostDist.Forms
             this.fileGroupBox.Controls.Add(this.escapeNameLabel);
             this.fileGroupBox.Controls.Add(this.processNameMemo);
             this.fileGroupBox.Controls.Add(this.processNameLabel);
-            this.fileGroupBox.Location = new System.Drawing.Point(11, 381);
+            this.fileGroupBox.Location = new System.Drawing.Point(11, 488);
             this.fileGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.fileGroupBox.Name = "fileGroupBox";
             this.fileGroupBox.Padding = new System.Windows.Forms.Padding(4);
-            this.fileGroupBox.Size = new System.Drawing.Size(812, 306);
+            this.fileGroupBox.Size = new System.Drawing.Size(812, 318);
             this.fileGroupBox.TabIndex = 16;
             this.fileGroupBox.TabStop = false;
             this.fileGroupBox.Text = "対象ファイル";
@@ -403,7 +481,7 @@ namespace GhostDist.Forms
             this.escapeNameMemo.Multiline = true;
             this.escapeNameMemo.Name = "escapeNameMemo";
             this.escapeNameMemo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.escapeNameMemo.Size = new System.Drawing.Size(395, 245);
+            this.escapeNameMemo.Size = new System.Drawing.Size(395, 257);
             this.escapeNameMemo.TabIndex = 3;
             // 
             // escapeNameLabel
@@ -426,7 +504,7 @@ namespace GhostDist.Forms
             this.processNameMemo.Multiline = true;
             this.processNameMemo.Name = "processNameMemo";
             this.processNameMemo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.processNameMemo.Size = new System.Drawing.Size(373, 245);
+            this.processNameMemo.Size = new System.Drawing.Size(373, 257);
             this.processNameMemo.TabIndex = 1;
             // 
             // processNameLabel
@@ -442,7 +520,7 @@ namespace GhostDist.Forms
             // previewButton
             // 
             this.previewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.previewButton.Location = new System.Drawing.Point(11, 698);
+            this.previewButton.Location = new System.Drawing.Point(11, 817);
             this.previewButton.Margin = new System.Windows.Forms.Padding(4);
             this.previewButton.Name = "previewButton";
             this.previewButton.Size = new System.Drawing.Size(284, 29);
@@ -467,7 +545,7 @@ namespace GhostDist.Forms
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(708, 696);
+            this.okButton.Location = new System.Drawing.Point(708, 815);
             this.okButton.Margin = new System.Windows.Forms.Padding(4);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(115, 31);
@@ -480,7 +558,7 @@ namespace GhostDist.Forms
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(580, 696);
+            this.cancelButton.Location = new System.Drawing.Point(580, 815);
             this.cancelButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(115, 31);
@@ -494,7 +572,7 @@ namespace GhostDist.Forms
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(839, 740);
+            this.ClientSize = new System.Drawing.Size(839, 859);
             this.Controls.Add(this.previewButton);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.okButton);
@@ -507,7 +585,9 @@ namespace GhostDist.Forms
             this.Controls.Add(this.htmlLabel);
             this.Controls.Add(this.htmlEdit);
             this.Controls.Add(this.upDirLabel);
+            this.Controls.Add(this.ghostIdLabel);
             this.Controls.Add(this.upDirEdit);
+            this.Controls.Add(this.ghostIdEdit);
             this.Controls.Add(this.serverGroupBox);
             this.Controls.Add(this.targetFolderLocateButton);
             this.Controls.Add(this.targetFolderLabel);

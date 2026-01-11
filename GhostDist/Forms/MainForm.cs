@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 using GhostDist.Models;
 using GhostDist.Services;
@@ -223,11 +224,114 @@ namespace GhostDist.Forms
         {
             logForm?.AddLog($"=== {project.Name} (NAR作成+アップロード) ===");
 
+            // アップロード先による分岐
+            if (ftpConfig.UploadDestinationType == UploadType.NarNaLoader)
+            {
+                return ExecuteNarNaLoaderUpload(project, ftpConfig, logForm);
+            }
+            else
+            {
+                return ExecuteFtpNarUpload(project, ftpConfig, logForm);
+            }
+        }
+
+        /// <summary>
+        /// NAR作成 + FTPアップロード (既存処理)
+        /// </summary>
+        private bool ExecuteFtpNarUpload(ProjectSettings project, FtpConfiguration ftpConfig, LogForm logForm)
+        {
             var service = new NetworkUpdateService();
             service.LogMessage += (s, msg) => logForm?.AddLog(msg);
             service.ProgressChanged += (s, e) => logForm?.SetProgress(e.BytesProcessed, e.TotalBytes);
 
             return service.ExecuteNarUpload(project, ftpConfig);
+        }
+
+        /// <summary>
+        /// NAR作成 + ななろだアップロード (新規処理)
+        /// </summary>
+        private bool ExecuteNarNaLoaderUpload(ProjectSettings project, FtpConfiguration ftpConfig, LogForm logForm)
+        {
+            logForm?.AddLog($"=== ななろだアップロード処理開始 ===");
+
+            // NAR作成
+            var narService = new NarCreationService();
+            narService.LogMessage += (s, msg) => logForm?.AddLog(msg);
+
+            string narPath;
+            try
+            {
+                narPath = narService.CreateNar(project);
+            }
+            catch (Exception ex)
+            {
+                logForm?.AddLog($"NAR作成に失敗しました: {ex.Message}");
+                return false;
+            }
+
+            // ななろだアップロード
+            using (var uploadService = new NarNaLoaderUploadService())
+            {
+                uploadService.LogMessage += (s, msg) => logForm?.AddLog(msg);
+                uploadService.ProgressChanged += (s, e) => logForm?.SetProgress(e.BytesProcessed, e.TotalBytes);
+
+                // 非同期処理を同期的に実行
+                var uploadTask = uploadService.UploadNarAsync(
+                    narPath,
+                    project.NarNaLoaderGhostId,
+                    ftpConfig.NarNaLoaderUploadUrl,
+                    ftpConfig.UserId,
+                    ftpConfig.Password
+                );
+
+                // UIフリーズ防止のためDoEventsを呼びながら待機
+                while (!uploadTask.IsCompleted)
+                {
+                    Application.DoEvents();
+                    System.Threading.Thread.Sleep(100);
+                }
+
+                var result = uploadTask.Result;
+
+                // ファイルサイズ取得
+                var fileInfo = new FileInfo(narPath);
+                var arcSize = fileInfo.Length;
+
+                // NARファイル削除
+                try
+                {
+                    File.Delete(narPath);
+                }
+                catch
+                {
+                    // 削除失敗は無視
+                }
+
+                // HTML書き換え (FTPアップロードと同様の処理)
+                if (result.Success && !string.IsNullOrEmpty(project.HtmlFile) && File.Exists(project.HtmlFile))
+                {
+                    try
+                    {
+                        var htmlContent = File.ReadAllText(project.HtmlFile, Encoding.GetEncoding("Shift_JIS"));
+
+                        // 変数置換
+                        htmlContent = htmlContent.Replace("%uploaddate", DateTime.Now.ToString("yyyy/MM/dd"));
+                        htmlContent = htmlContent.Replace("%uploadtime", DateTime.Now.ToString("HH:mm:ss"));
+                        htmlContent = htmlContent.Replace("%uploadsize", (arcSize / 1024) + " KB");
+
+                        // 上書き保存 (ローカル)
+                        File.WriteAllText(project.HtmlFile, htmlContent, Encoding.GetEncoding("Shift_JIS"));
+                        logForm?.AddLog($"HTMLファイルを更新しました: {Path.GetFileName(project.HtmlFile)}");
+                    }
+                    catch (Exception ex)
+                    {
+                        logForm?.AddLog($"HTMLファイルの更新に失敗しました: {ex.Message}");
+                    }
+                }
+
+                logForm?.AddLog("ななろだアップロード処理が完了しました。");
+                return result.Success;
+            }
         }
 
         private bool ExecuteNarCreate(ProjectSettings project, LogForm logForm)

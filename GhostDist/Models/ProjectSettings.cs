@@ -63,6 +63,11 @@ namespace GhostDist.Models
         /// </summary>
         public bool UseCommonFtp { get; set; }
 
+        /// <summary>
+        /// ななろだのアイテムID (ghost_id) - プロジェクト個別設定
+        /// </summary>
+        public string NarNaLoaderGhostId { get; set; }
+
         public ProjectSettings()
         {
             Name = "";
@@ -76,6 +81,7 @@ namespace GhostDist.Models
             DefaultCheck = true;
             PrivateFtp = new FtpConfiguration();
             UseCommonFtp = false;
+            NarNaLoaderGhostId = "";
         }
 
         /// <summary>

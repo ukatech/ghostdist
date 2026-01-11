@@ -71,6 +71,10 @@ namespace GhostDist.Services
                     config.Password = data["FTP"]["Password"] ?? "";
                     config.Passive = ParseBool(data["FTP"]["Passive"]);
                     config.UseSSL = ParseBool(data["FTP"]["SSL"]);
+
+                    // ななろだ設定（GhostIDは除外）
+                    config.UploadDestinationType = ParseUploadType(data["FTP"]["UploadType"]);
+                    config.NarNaLoaderUploadUrl = data["FTP"]["UploadURL"] ?? "";
                 }
             }
             catch (Exception)
@@ -127,8 +131,13 @@ namespace GhostDist.Services
                             UserId = data[section]["ID"] ?? "",
                             Password = data[section]["Password"] ?? "",
                             Passive = ParseBool(data[section]["Passive"]),
-                            UseSSL = ParseBool(data[section]["SSL"])
-                        }
+                            UseSSL = ParseBool(data[section]["SSL"]),
+                            // ななろだ設定 (Upload モード時のみ使用、GhostIDは除外)
+                            UploadDestinationType = ParseUploadType(data[section]["UploadType"]),
+                            NarNaLoaderUploadUrl = data[section]["UploadURL"] ?? ""
+                        },
+                        // GhostIDはプロジェクト個別設定
+                        NarNaLoaderGhostId = data[section]["UploadGhostID"] ?? ""
                     };
 
                     projects.Add(project);
@@ -157,6 +166,8 @@ namespace GhostDist.Services
                 data["FTP"]["Password"] = commonFtp.Password;
                 data["FTP"]["Passive"] = commonFtp.Passive ? "1" : "0";
                 data["FTP"]["SSL"] = commonFtp.UseSSL ? "1" : "0";
+                data["FTP"]["UploadType"] = commonFtp.UploadDestinationType == UploadType.NarNaLoader ? "NNRD" : "FTP";
+                data["FTP"]["UploadURL"] = commonFtp.NarNaLoaderUploadUrl;
 
                 // 一般設定
                 data["General"]["IsLog"] = isLog ? "1" : "0";
@@ -184,6 +195,12 @@ namespace GhostDist.Services
                     data[section]["DefaultCheck"] = project.DefaultCheck ? "1" : "0";
                     data[section]["ProcessName"] = ConvertLinesToCommaText(project.ProcessName);
                     data[section]["ExcludeName"] = ConvertLinesToCommaText(project.ExcludeName);
+
+                    // ななろだ設定
+                    data[section]["UploadType"] = project.PrivateFtp.UploadDestinationType == UploadType.NarNaLoader ? "NNRD" : "FTP";
+                    data[section]["UploadURL"] = project.PrivateFtp.NarNaLoaderUploadUrl;
+                    // GhostIDはプロジェクト個別設定
+                    data[section]["UploadGhostID"] = project.NarNaLoaderGhostId;
                 }
 
                 // カスタムINI書き込み（"="前後の空白を入れない）
@@ -210,6 +227,25 @@ namespace GhostDist.Services
                     return SettingType.NarCreate;
                 default:
                     return SettingType.Network;
+            }
+        }
+
+        /// <summary>
+        /// UploadType文字列をenumに変換
+        /// </summary>
+        private UploadType ParseUploadType(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return UploadType.FTP; // デフォルト
+
+            switch (value.ToLower())
+            {
+                case "nnrd":
+                case "nanaloader":
+                    return UploadType.NarNaLoader;
+                case "ftp":
+                default:
+                    return UploadType.FTP;
             }
         }
 

@@ -83,6 +83,8 @@
     <Compile Include="Models\FileElement.cs" />
     <Compile Include="Models\Updates2DauManager.cs" />
     <Compile Include="Models\ProjectSettings.cs" />
+    <Compile Include="Models\UploadType.cs" />
+    <Compile Include="Services\NarNaLoaderUploadService.cs" />
     <Compile Include="Utilities\EncodingHelper.cs" />
     <Compile Include="Utilities\Md5Helper.cs" />
     <Compile Include="Utilities\FilePatternMatcher.cs" />

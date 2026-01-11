@@ -3,7 +3,7 @@ using System;
 namespace GhostDist.Models
 {
     /// <summary>
-    /// FTP接続設定
+    /// FTP接続設定（アップロード設定全般を含む）
     /// </summary>
     public class FtpConfiguration
     {
@@ -32,6 +32,16 @@ namespace GhostDist.Models
         /// </summary>
         public bool UseSSL { get; set; }
 
+        /// <summary>
+        /// アップロード先の種類 (Upload モード時のみ有効)
+        /// </summary>
+        public UploadType UploadDestinationType { get; set; }
+
+        /// <summary>
+        /// ななろだのアップロードURL
+        /// </summary>
+        public string NarNaLoaderUploadUrl { get; set; }
+
         public FtpConfiguration()
         {
             Server = "";
@@ -39,6 +49,10 @@ namespace GhostDist.Models
             Password = "";
             Passive = false;
             UseSSL = false;
+
+            // ななろだ関連のデフォルト値
+            UploadDestinationType = UploadType.FTP;
+            NarNaLoaderUploadUrl = "";
         }
     }
 }

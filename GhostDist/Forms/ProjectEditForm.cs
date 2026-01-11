@@ -72,6 +72,9 @@ namespace GhostDist.Forms
             processNameMemo.Text = Settings.ProcessName;
             escapeNameMemo.Text = Settings.ExcludeName;
 
+            // ななろだ設定（UseCommonFtpの状態に応じて読み込み）
+            LoadUploadSettings();
+
             UpdateControlsState();
         }
 
@@ -104,11 +107,18 @@ namespace GhostDist.Forms
             // ファイルパターン
             Settings.ProcessName = processNameMemo.Text;
             Settings.ExcludeName = escapeNameMemo.Text;
+
+            // ななろだ設定
+            Settings.PrivateFtp.UploadDestinationType = nanaloaderRadio.Checked ? UploadType.NarNaLoader : UploadType.FTP;
+            Settings.PrivateFtp.NarNaLoaderUploadUrl = uploadUrlEdit.Text;
+            // GhostIDはプロジェクト個別設定
+            Settings.NarNaLoaderGhostId = ghostIdEdit.Text;
         }
 
         private void UpdateControlsState()
         {
             bool isNetwork = networkRadio.Checked;
+            bool isUpload = narUpRadio.Checked;
             bool needsNar = !isNetwork;
             bool needsFtp = !narCreateRadio.Checked;
 
@@ -118,14 +128,33 @@ namespace GhostDist.Forms
             narNameEdit.Enabled = needsNar;
             narLocateButton.Enabled = needsNar;
 
-            // FTP設定はNarCreate以外で有効
-            serverEdit.Enabled = needsFtp && !useDefaultFTPCheck.Checked;
-            idEdit.Enabled = needsFtp && !useDefaultFTPCheck.Checked;
-            passwordEdit.Enabled = needsFtp && !useDefaultFTPCheck.Checked;
-            passiveCheck.Enabled = needsFtp && !useDefaultFTPCheck.Checked;
-            sslCheck.Enabled = needsFtp && !useDefaultFTPCheck.Checked;
-            useDefaultFTPCheck.Enabled = needsFtp;
-            setDefaultButton.Enabled = needsFtp;
+            // アップロード先選択（FTP/ななろだ）はUploadモード時のみ表示
+            bool isFtpUpload = isUpload && ftpRadio.Checked;
+            bool isNarNaLoaderUpload = isUpload && nanaloaderRadio.Checked;
+            ftpRadio.Visible = isUpload;
+            nanaloaderRadio.Visible = isUpload;
+
+            // FTP固有設定: ネットワーク更新 OR FTPアップロード時に有効
+            bool needsFtpSettings = (isNetwork || isFtpUpload);
+            serverEdit.Enabled = needsFtpSettings && !useDefaultFTPCheck.Checked;
+            passiveCheck.Enabled = needsFtpSettings && !useDefaultFTPCheck.Checked;
+            sslCheck.Enabled = needsFtpSettings && !useDefaultFTPCheck.Checked;
+            upDirEdit.Enabled = needsFtpSettings;
+
+            // ID/パスワード: ネットワーク更新 OR Upload時（FTP/ななろだ共通）に有効
+            bool needsAuth = needsFtp;
+            idEdit.Enabled = needsAuth && !useDefaultFTPCheck.Checked;
+            passwordEdit.Enabled = needsAuth && !useDefaultFTPCheck.Checked;
+            useDefaultFTPCheck.Enabled = needsAuth;
+            setDefaultButton.Enabled = needsAuth;
+
+            // ななろだ設定はNarNaLoaderアップロード時のみ表示・有効
+            ghostIdLabel.Visible = isUpload;
+            ghostIdEdit.Visible = isUpload;
+            uploadUrlLabel.Visible = isUpload;
+            uploadUrlEdit.Visible = isUpload;
+            ghostIdEdit.Enabled = isNarNaLoaderUpload && !useDefaultFTPCheck.Checked;
+            uploadUrlEdit.Enabled = isNarNaLoaderUpload && !useDefaultFTPCheck.Checked;
 
             // アーカイブ生成時の必須ファイル追加
             if (needsNar)
@@ -173,11 +202,6 @@ namespace GhostDist.Forms
         }
 
         private void narCreateRadio_CheckedChanged(object sender, EventArgs e)
-        {
-            UpdateControlsState();
-        }
-
-        private void useDefaultFTPCheck_CheckedChanged(object sender, EventArgs e)
         {
             UpdateControlsState();
         }
@@ -243,6 +267,10 @@ namespace GhostDist.Forms
                     CommonFtp.Password = passwordEdit.Text;
                     CommonFtp.Passive = passiveCheck.Checked;
                     CommonFtp.UseSSL = sslCheck.Checked;
+
+                    // ななろだ設定も共通化（GhostIDは除外）
+                    CommonFtp.UploadDestinationType = nanaloaderRadio.Checked ? UploadType.NarNaLoader : UploadType.FTP;
+                    CommonFtp.NarNaLoaderUploadUrl = uploadUrlEdit.Text;
                 }
 
                 MessageBox.Show("共通FTP設定に保存されました。", "情報", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -277,6 +305,32 @@ namespace GhostDist.Forms
                         serverEdit.Focus();
                         return;
                     }
+                }
+            }
+
+            // ななろだアップロード時の必須チェック
+            if (narUpRadio.Checked && nanaloaderRadio.Checked)
+            {
+                if (string.IsNullOrWhiteSpace(ghostIdEdit.Text))
+                {
+                    MessageBox.Show("Ghost IDを入力してください。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    ghostIdEdit.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(uploadUrlEdit.Text))
+                {
+                    MessageBox.Show("アップロードURLを入力してください。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    uploadUrlEdit.Focus();
+                    return;
+                }
+
+                // URL形式の簡易検証
+                if (!uploadUrlEdit.Text.StartsWith("http://") && !uploadUrlEdit.Text.StartsWith("https://"))
+                {
+                    MessageBox.Show("アップロードURLはhttp://またはhttps://で始まる必要があります。", "入力エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    uploadUrlEdit.Focus();
+                    return;
                 }
             }
 
@@ -338,6 +392,42 @@ namespace GhostDist.Forms
             {
                 logForm.EnableCloseButton(true);
             }
+        }
+
+        private void ftpRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateControlsState();
+        }
+
+        private void nanaloaderRadio_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateControlsState();
+        }
+
+        private void useDefaultFTPCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            LoadUploadSettings();
+            UpdateControlsState();
+        }
+
+        /// <summary>
+        /// UseCommonFtpの状態に応じてアップロード設定を読み込み
+        /// </summary>
+        private void LoadUploadSettings()
+        {
+            var config = useDefaultFTPCheck.Checked && CommonFtp != null ? CommonFtp : Settings.PrivateFtp;
+
+            if (config.UploadDestinationType == UploadType.NarNaLoader)
+            {
+                nanaloaderRadio.Checked = true;
+            }
+            else
+            {
+                ftpRadio.Checked = true;
+            }
+            // GhostIDは常にプロジェクト個別設定から読み込み
+            ghostIdEdit.Text = Settings.NarNaLoaderGhostId;
+            uploadUrlEdit.Text = config.NarNaLoaderUploadUrl;
         }
     }
 }
