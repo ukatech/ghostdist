@@ -68,8 +68,8 @@ Costura.Fodyにより依存DLLはEXEに埋め込まれるため、**単一ファ
 ### 文字エンコーディング
 
 - INI設定ファイル: Shift_JIS
-- updates2.dau: Shift_JIS
-- NAR(ZIP)内のファイル名: Shift_JIS
+- updates2.dau: Shift_JIS (ファイル名がSJISで対応できない場合は自動でUTF-8に切り替え)
+- NAR(ZIP)内のファイル名: Shift_JIS (Info-Zip Unicode File Name拡張を必要な場合のみ追加)
 
 すべてDelphi版と同じエンコーディングで処理されます。
 
@@ -126,7 +126,7 @@ Copyright (c) 2000-2018 SharpZipLib Contributors
 https://github.com/icsharpcode/SharpZipLib/blob/master/LICENSE.txt
 ```
 
-#### ini-parser / ini-parser-netstandard
+#### ini-parser
 ```
 MIT License
 Copyright (c) 2008 Ricardo Amores Hernandez
