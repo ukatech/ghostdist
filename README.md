@@ -101,7 +101,6 @@ dotnet/
 |-----------|-----------|-----------|------|
 | [FluentFTP](https://github.com/robinrodricks/FluentFTP) | 53.0.2 | MIT | FTP/FTPS通信 |
 | [SharpZipLib](https://github.com/icsharpcode/SharpZipLib) | 1.3.3 | MIT | ZIP圧縮（NAR作成） |
-| [ini-parser](https://github.com/rickyah/ini-parser) | 2.5.3 | MIT | INI設定ファイル読み書き |
 | [Fody](https://github.com/Fody/Fody) | 6.9.3 | MIT | ビルド時アセンブリ処理 |
 | [Costura.Fody](https://github.com/Fody/Costura) | 6.0.0 | MIT | DLL埋め込み（単一EXE化） |
 
@@ -124,13 +123,6 @@ https://github.com/robinrodricks/FluentFTP/blob/master/LICENSE.TXT
 MIT License
 Copyright (c) 2000-2018 SharpZipLib Contributors
 https://github.com/icsharpcode/SharpZipLib/blob/master/LICENSE.txt
-```
-
-#### ini-parser
-```
-MIT License
-Copyright (c) 2008 Ricardo Amores Hernandez
-https://github.com/rickyah/ini-parser/blob/development/LICENSE
 ```
 
 #### Fody / Costura.Fody

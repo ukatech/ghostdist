@@ -4,9 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using GhostDist.Models;
-using IniParser;
-using IniParser.Model;
-using IniParser.Parser;
+using GhostDist.Utilities;
 
 namespace GhostDist.Services
 {
@@ -68,19 +66,9 @@ namespace GhostDist.Services
 
             try
             {
-                // ファイルを共有読み取りモードで読み込み
-                string iniContent;
-                var encoding = Encoding.GetEncoding("Shift_JIS");
-
-                using (var fileStream = new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                using (var reader = new StreamReader(fileStream, encoding))
-                {
-                    iniContent = reader.ReadToEnd();
-                }
-
-                // 文字列からパース
-                var parser = new IniDataParser();
-                var data = parser.Parse(iniContent);
+                // 独自のINIパーサで読み込み（ファイル末尾のゴミ対策）
+                var parser = new SimpleIniParser();
+                var data = parser.ParseFile(fullPath);
 
                 // 一般設定
                 if (data.Sections.ContainsSection("General"))
@@ -160,14 +148,6 @@ namespace GhostDist.Services
                     $"ネットワークドライブの場合は接続を確認してください。\n" +
                     $"詳細: {ex.Message}", ex);
             }
-            catch (IniParser.Exceptions.ParsingException ex)
-            {
-                throw new Exception(
-                    $"設定ファイルの形式が不正です。\n" +
-                    $"パス: {fullPath}\n" +
-                    $"サイズ: {fileInfo.Length:N0} bytes\n" +
-                    $"詳細: {ex.Message}", ex);
-            }
             catch (Exception ex)
             {
                 throw new Exception(
@@ -186,7 +166,7 @@ namespace GhostDist.Services
         {
             try
             {
-                var data = new IniData();
+                var data = new SimpleIniData();
 
                 // FTP共通設定
                 data["FTP"]["Server"] = commonFtp.Server;
@@ -231,8 +211,9 @@ namespace GhostDist.Services
                     data[section]["UploadGhostID"] = project.NarNaLoaderGhostId;
                 }
 
-                // カスタムINI書き込み（"="前後の空白を入れない）
-                WriteIniFile(_iniPath, data);
+                // 独自のINIパーサで書き込み（"="前後の空白を入れない）
+                var parser = new SimpleIniParser();
+                parser.WriteFile(_iniPath, data);
             }
             catch (Exception ex)
             {
@@ -309,54 +290,5 @@ namespace GhostDist.Services
             return string.Join(",", parts.Select(p => p.Trim()).Where(p => !string.IsNullOrEmpty(p)));
         }
 
-        /// <summary>
-        /// INIファイルをカスタム形式で書き込み（"="前後の空白なし）
-        /// </summary>
-        private void WriteIniFile(string filePath, IniData data)
-        {
-            var encoding = Encoding.GetEncoding("Shift_JIS");
-            using (var writer = new StreamWriter(filePath, false, encoding))
-            {
-                foreach (var section in data.Sections)
-                {
-                    // セクションヘッダー
-                    writer.WriteLine($"[{section.SectionName}]");
-
-                    // キー=値のペア（空白なし）
-                    foreach (var key in section.Keys)
-                    {
-                        // 安全性のため、keyから改行と"="を削除、valueから改行を削除
-                        var safeKey = SanitizeIniKey(key.KeyName);
-                        var safeValue = SanitizeIniValue(key.Value);
-                        writer.WriteLine($"{safeKey}={safeValue}");
-                    }
-
-                    // セクション間の空行
-                    writer.WriteLine();
-                }
-            }
-        }
-
-        /// <summary>
-        /// INIキー名をサニタイズ（改行と"="を削除）
-        /// </summary>
-        private string SanitizeIniKey(string key)
-        {
-            if (string.IsNullOrEmpty(key))
-                return "";
-
-            return key.Replace("\r", "").Replace("\n", "").Replace("=", "");
-        }
-
-        /// <summary>
-        /// INI値をサニタイズ（改行を削除）
-        /// </summary>
-        private string SanitizeIniValue(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-                return "";
-
-            return value.Replace("\r", "").Replace("\n", "");
-        }
     }
 }

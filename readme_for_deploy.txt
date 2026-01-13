@@ -75,6 +75,22 @@ ghostdist.exeが存在するのと同じ階層にINIファイルが存在する�
 ソースコードはMITライセンスの下で公開されています。
 詳細は[LICENSE](LICENSE)ファイルを参照してください。
 
+本ソフトウェアは以下のオープンソースライブラリを使用しています。
+すべてMITライセンスです。
+
+- FluentFTP
+  MIT License, Copyright (c) 2016 Robin Rodricks, J.P. Trosclair
+  https://github.com/robinrodricks/FluentFTP
+
+- SharpZipLib
+  MIT License, Copyright (c) 2000-2018 SharpZipLib Contributors
+  https://github.com/icsharpcode/SharpZipLib
+
+- Fody / Costura.Fody
+  MIT License, Copyright (c) Simon Cropp
+  https://github.com/Fody/Fody
+  https://github.com/Fody/Costura
+
 
 ７．その他--------------------------------------------------------------------
 本ソフトウエアの原案は櫛ヶ浜やぎ氏制作の「そだて」から来ています。
