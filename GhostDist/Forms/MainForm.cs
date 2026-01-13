@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using GhostDist.Models;
 using GhostDist.Services;
@@ -18,7 +19,9 @@ namespace GhostDist.Forms
         private string _iniPath;
         private bool _isLog = false;
         private bool _noLogWindow = false;
+        private bool _checkVersionAtStartup = true; // デフォルトON
         private bool _configLoadFailed = false; // 読み込み失敗フラグ
+        private System.Threading.Timer _versionCheckTimer; // 起動3秒後にバージョンチェック
 
         public MainForm()
         {
@@ -31,17 +34,29 @@ namespace GhostDist.Forms
 
             LoadConfiguration();
             LoadWindowSettings();
+
+            // 起動3秒後にバージョンチェック
+            if (_checkVersionAtStartup)
+            {
+                _versionCheckTimer = new System.Threading.Timer(
+                    async _ => await CheckForUpdatesAsync(),
+                    null,
+                    3000, // 3秒後
+                    System.Threading.Timeout.Infinite // 1回のみ
+                );
+            }
         }
 
         private void LoadConfiguration()
         {
             try
             {
-                _configService.LoadAll(out _isLog, out _noLogWindow, out _commonFtp, out _projects);
+                _configService.LoadAll(out _isLog, out _noLogWindow, out _commonFtp, out _projects, out _checkVersionAtStartup);
 
-                // UIに反映
-                logCheckBox.Checked = _isLog;
-                noLogWindowCheckBox.Checked = _noLogWindow;
+                // UIに反映（メニュー項目のチェック状態）
+                logMenuItem.Checked = _isLog;
+                noLogWindowMenuItem.Checked = _noLogWindow;
+                checkVersionMenuItem.Checked = _checkVersionAtStartup;
 
                 // プロジェクトリストに追加
                 projectListBox.Items.Clear();
@@ -83,7 +98,7 @@ namespace GhostDist.Forms
 
             try
             {
-                _configService.SaveProjects(_projects, _commonFtp, _isLog, _noLogWindow);
+                _configService.SaveProjects(_projects, _commonFtp, _isLog, _noLogWindow, _checkVersionAtStartup);
             }
             catch (Exception ex)
             {
@@ -392,6 +407,7 @@ namespace GhostDist.Forms
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            _versionCheckTimer?.Dispose(); // タイマーの破棄
             SaveWindowSettings();
             SaveConfiguration();
         }
@@ -450,14 +466,19 @@ namespace GhostDist.Forms
             settings.Save();
         }
 
-        private void logCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void logMenuItem_Click(object sender, EventArgs e)
         {
-            _isLog = logCheckBox.Checked;
+            _isLog = logMenuItem.Checked;
         }
 
-        private void noLogWindowCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void noLogWindowMenuItem_Click(object sender, EventArgs e)
         {
-            _noLogWindow = noLogWindowCheckBox.Checked;
+            _noLogWindow = noLogWindowMenuItem.Checked;
+        }
+
+        private void checkVersionMenuItem_Click(object sender, EventArgs e)
+        {
+            _checkVersionAtStartup = checkVersionMenuItem.Checked;
         }
 
         private void copyButton_Click(object sender, EventArgs e)
@@ -564,6 +585,74 @@ namespace GhostDist.Forms
             using (var aboutDialog = new AboutDialog())
             {
                 aboutDialog.ShowDialog(this);
+            }
+        }
+
+        /// <summary>
+        /// GitHub APIで最新バージョンを確認（非同期）
+        /// </summary>
+        private async Task CheckForUpdatesAsync()
+        {
+            using (var versionService = new VersionCheckService())
+            {
+                try
+                {
+                    var currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                    var releaseInfo = await versionService.GetLatestReleaseAsync("ukatech", "ghostdist");
+
+                    if (releaseInfo == null)
+                    {
+                        // エラー時は静かに失敗（ユーザーに通知しない）
+                        return;
+                    }
+
+                    if (versionService.IsNewerVersionAvailable(currentVersion, releaseInfo.TagName))
+                    {
+                        // UI Threadで実行
+                        this.Invoke(new Action(() =>
+                        {
+                            ShowUpdateNotification(releaseInfo);
+                        }));
+                    }
+                }
+                catch
+                {
+                    // すべての例外を静かに無視
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新通知ダイアログを表示
+        /// </summary>
+        private void ShowUpdateNotification(GitHubReleaseInfo releaseInfo)
+        {
+            var currentVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            var message = new StringBuilder();
+            message.AppendLine($"新しいバージョンが利用可能です。");
+            message.AppendLine();
+            message.AppendLine($"現在のバージョン: {currentVersion.Major}.{currentVersion.Minor}.{currentVersion.Build}.{currentVersion.Revision}");
+            message.AppendLine($"最新バージョン: {releaseInfo.TagName}");
+            message.AppendLine();
+            message.AppendLine("リリースページを開きますか？");
+
+            var result = MessageBox.Show(
+                message.ToString(),
+                "更新の確認",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Information
+            );
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start("https://github.com/ukatech/ghostdist/releases");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"URLを開けませんでした: {ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
     }

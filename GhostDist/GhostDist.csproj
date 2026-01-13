@@ -93,6 +93,7 @@
     <Compile Include="Services\FtpService.cs" />
     <Compile Include="Services\NarCreationService.cs" />
     <Compile Include="Services\NetworkUpdateService.cs" />
+    <Compile Include="Services\VersionCheckService.cs" />
     <Compile Include="Forms\LogForm.cs">
       <SubType>Form</SubType>
     </Compile>

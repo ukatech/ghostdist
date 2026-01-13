@@ -28,10 +28,11 @@ namespace GhostDist.Services
         /// <summary>
         /// すべての設定を一括読み込み
         /// </summary>
-        public void LoadAll(out bool isLog, out bool noLogWindow, out FtpConfiguration commonFtp, out List<ProjectSettings> projects)
+        public void LoadAll(out bool isLog, out bool noLogWindow, out FtpConfiguration commonFtp, out List<ProjectSettings> projects, out bool checkVersionAtStartup)
         {
             isLog = false;
             noLogWindow = false;
+            checkVersionAtStartup = true; // デフォルトON
             commonFtp = new FtpConfiguration();
             projects = new List<ProjectSettings>();
 
@@ -75,6 +76,7 @@ namespace GhostDist.Services
                 {
                     isLog = ParseBool(data["General"]["IsLog"]);
                     noLogWindow = ParseBool(data["General"]["NoLog"]);
+                    checkVersionAtStartup = ParseBool(data["General"]["CheckVersionAtStartup"], true); // デフォルトON
                 }
 
                 // 共通FTP設定
@@ -162,7 +164,7 @@ namespace GhostDist.Services
         /// <summary>
         /// プロジェクト設定リストを保存
         /// </summary>
-        public void SaveProjects(List<ProjectSettings> projects, FtpConfiguration commonFtp, bool isLog, bool noLogWindow)
+        public void SaveProjects(List<ProjectSettings> projects, FtpConfiguration commonFtp, bool isLog, bool noLogWindow, bool checkVersionAtStartup)
         {
             try
             {
@@ -180,6 +182,7 @@ namespace GhostDist.Services
                 // 一般設定
                 data["General"]["IsLog"] = isLog ? "1" : "0";
                 data["General"]["NoLog"] = noLogWindow ? "1" : "0";
+                data["General"]["CheckVersionAtStartup"] = checkVersionAtStartup ? "1" : "0";
                 data["General"]["SettingsCount"] = projects.Count.ToString();
 
                 // 各プロジェクト設定
