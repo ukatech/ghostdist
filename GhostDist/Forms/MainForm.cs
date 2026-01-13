@@ -55,7 +55,21 @@ namespace GhostDist.Forms
             catch (Exception ex)
             {
                 _configLoadFailed = true; // 読み込み失敗時は保存を防止
-                MessageBox.Show($"設定ファイルの読み込みに失敗しました: {ex.Message}\n\n設定ファイルのパス: {_iniPath}\n\n読み込みに失敗したため、設定の保存は無効になります。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                var message = new StringBuilder();
+                message.AppendLine("設定ファイルの読み込みに失敗しました。");
+                message.AppendLine();
+                message.AppendLine(ex.Message);
+                message.AppendLine();
+                message.AppendLine("【診断情報】");
+                message.AppendLine($"実行ファイル: {Application.ExecutablePath}");
+                message.AppendLine($"起動パス: {Application.StartupPath}");
+                message.AppendLine($"設定ファイル: {_iniPath}");
+                message.AppendLine();
+                message.AppendLine("読み込みに失敗したため、設定の保存は無効になります。");
+                message.AppendLine("既存の設定ファイルは上書きされません。");
+
+                MessageBox.Show(message.ToString(), "設定ファイル読み込みエラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

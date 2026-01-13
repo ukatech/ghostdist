@@ -6,6 +6,7 @@ using System.Text;
 using GhostDist.Models;
 using IniParser;
 using IniParser.Model;
+using IniParser.Parser;
 
 namespace GhostDist.Services
 {
@@ -22,6 +23,11 @@ namespace GhostDist.Services
         }
 
         /// <summary>
+        /// 設定ファイルのパスを取得
+        /// </summary>
+        public string IniPath => _iniPath;
+
+        /// <summary>
         /// すべての設定を一括読み込み
         /// </summary>
         public void LoadAll(out bool isLog, out bool noLogWindow, out FtpConfiguration commonFtp, out List<ProjectSettings> projects)
@@ -31,16 +37,50 @@ namespace GhostDist.Services
             commonFtp = new FtpConfiguration();
             projects = new List<ProjectSettings>();
 
-            if (!File.Exists(_iniPath))
+            // パスの正規化
+            string fullPath;
+            try
+            {
+                fullPath = Path.GetFullPath(_iniPath);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"設定ファイルのパスが無効です: {_iniPath}\n詳細: {ex.Message}", ex);
+            }
+
+            // ファイルの存在確認（より詳細なチェック）
+            if (!File.Exists(fullPath))
             {
                 // ファイルが存在しない場合は正常（初回起動）
                 return;
             }
 
+            // ファイル情報を取得（エラー時の診断用）
+            FileInfo fileInfo;
             try
             {
-                var parser = new FileIniDataParser();
-                var data = parser.ReadFile(_iniPath, Encoding.GetEncoding("Shift_JIS"));
+                fileInfo = new FileInfo(fullPath);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"設定ファイルの情報を取得できません: {fullPath}\n詳細: {ex.Message}", ex);
+            }
+
+            try
+            {
+                // ファイルを共有読み取りモードで読み込み
+                string iniContent;
+                var encoding = Encoding.GetEncoding("Shift_JIS");
+
+                using (var fileStream = new FileStream(fullPath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                using (var reader = new StreamReader(fileStream, encoding))
+                {
+                    iniContent = reader.ReadToEnd();
+                }
+
+                // 文字列からパース
+                var parser = new IniDataParser();
+                var data = parser.Parse(iniContent);
 
                 // 一般設定
                 if (data.Sections.ContainsSection("General"))
@@ -103,9 +143,39 @@ namespace GhostDist.Services
                     }
                 }
             }
+            catch (UnauthorizedAccessException ex)
+            {
+                throw new Exception(
+                    $"設定ファイルへのアクセスが拒否されました。\n" +
+                    $"パス: {fullPath}\n" +
+                    $"サイズ: {fileInfo.Length:N0} bytes\n" +
+                    $"詳細: {ex.Message}", ex);
+            }
+            catch (IOException ex)
+            {
+                throw new Exception(
+                    $"設定ファイルの読み込み中にI/Oエラーが発生しました。\n" +
+                    $"パス: {fullPath}\n" +
+                    $"サイズ: {fileInfo.Length:N0} bytes\n" +
+                    $"ネットワークドライブの場合は接続を確認してください。\n" +
+                    $"詳細: {ex.Message}", ex);
+            }
+            catch (IniParser.Exceptions.ParsingException ex)
+            {
+                throw new Exception(
+                    $"設定ファイルの形式が不正です。\n" +
+                    $"パス: {fullPath}\n" +
+                    $"サイズ: {fileInfo.Length:N0} bytes\n" +
+                    $"詳細: {ex.Message}", ex);
+            }
             catch (Exception ex)
             {
-                throw new Exception($"設定ファイルの読み込みに失敗しました: {ex.Message}", ex);
+                throw new Exception(
+                    $"設定ファイルの読み込みに失敗しました。\n" +
+                    $"パス: {fullPath}\n" +
+                    $"サイズ: {fileInfo.Length:N0} bytes\n" +
+                    $"例外の種類: {ex.GetType().Name}\n" +
+                    $"詳細: {ex.Message}", ex);
             }
         }
 
