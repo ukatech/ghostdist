@@ -22,133 +22,91 @@ namespace GhostDist.Services
         }
 
         /// <summary>
-        /// 一般設定を読み込み
+        /// すべての設定を一括読み込み
         /// </summary>
-        public void LoadGeneralSettings(out bool isLog, out bool noLogWindow)
+        public void LoadAll(out bool isLog, out bool noLogWindow, out FtpConfiguration commonFtp, out List<ProjectSettings> projects)
         {
             isLog = false;
             noLogWindow = false;
+            commonFtp = new FtpConfiguration();
+            projects = new List<ProjectSettings>();
 
             if (!File.Exists(_iniPath))
+            {
+                // ファイルが存在しない場合は正常（初回起動）
                 return;
+            }
 
             try
             {
                 var parser = new FileIniDataParser();
                 var data = parser.ReadFile(_iniPath, Encoding.GetEncoding("Shift_JIS"));
 
+                // 一般設定
                 if (data.Sections.ContainsSection("General"))
                 {
                     isLog = ParseBool(data["General"]["IsLog"]);
                     noLogWindow = ParseBool(data["General"]["NoLog"]);
                 }
-            }
-            catch (Exception)
-            {
-                // エラー時はデフォルト値を返す
-            }
-        }
 
-        /// <summary>
-        /// 共通FTP設定を読み込み
-        /// </summary>
-        public FtpConfiguration LoadCommonFtp()
-        {
-            var config = new FtpConfiguration();
-
-            if (!File.Exists(_iniPath))
-                return config;
-
-            try
-            {
-                var parser = new FileIniDataParser();
-                var data = parser.ReadFile(_iniPath, Encoding.GetEncoding("Shift_JIS"));
-
+                // 共通FTP設定
                 if (data.Sections.ContainsSection("FTP"))
                 {
-                    config.Server = data["FTP"]["Server"] ?? "";
-                    config.UserId = data["FTP"]["ID"] ?? "";
-                    config.Password = data["FTP"]["Password"] ?? "";
-                    config.Passive = ParseBool(data["FTP"]["Passive"]);
-                    config.UseSSL = ParseBool(data["FTP"]["SSL"]);
-
-                    // ななろだ設定（GhostIDは除外）
-                    config.UploadDestinationType = ParseUploadType(data["FTP"]["UploadType"]);
-                    config.NarNaLoaderUploadUrl = data["FTP"]["UploadURL"] ?? "";
+                    commonFtp.Server = data["FTP"]["Server"] ?? "";
+                    commonFtp.UserId = data["FTP"]["ID"] ?? "";
+                    commonFtp.Password = data["FTP"]["Password"] ?? "";
+                    commonFtp.Passive = ParseBool(data["FTP"]["Passive"]);
+                    commonFtp.UseSSL = ParseBool(data["FTP"]["SSL"]);
+                    commonFtp.UploadDestinationType = ParseUploadType(data["FTP"]["UploadType"]);
+                    commonFtp.NarNaLoaderUploadUrl = data["FTP"]["UploadURL"] ?? "";
                 }
-            }
-            catch (Exception)
-            {
-                // エラー時はデフォルト値を返す
-            }
 
-            return config;
-        }
-
-        /// <summary>
-        /// プロジェクト設定リストを読み込み
-        /// </summary>
-        public List<ProjectSettings> LoadProjects()
-        {
-            var projects = new List<ProjectSettings>();
-
-            if (!File.Exists(_iniPath))
-                return projects;
-
-            try
-            {
-                var parser = new FileIniDataParser();
-                var data = parser.ReadFile(_iniPath, Encoding.GetEncoding("Shift_JIS"));
-
-                if (!data.Sections.ContainsSection("General"))
-                    return projects;
-
-                var countStr = data["General"]["SettingsCount"];
-                if (string.IsNullOrEmpty(countStr) || !int.TryParse(countStr, out int count))
-                    return projects;
-
-                for (int i = 0; i < count; i++)
+                // プロジェクト設定
+                if (data.Sections.ContainsSection("General"))
                 {
-                    var section = i.ToString();
-                    if (!data.Sections.ContainsSection(section))
-                        continue;
-
-                    var project = new ProjectSettings
+                    var countStr = data["General"]["SettingsCount"];
+                    if (!string.IsNullOrEmpty(countStr) && int.TryParse(countStr, out int count))
                     {
-                        Name = data[section]["Name"] ?? "",
-                        Type = ParseSettingType(data[section]["Setting"]),
-                        Directory = data[section]["Directory"] ?? "/",
-                        HtmlFile = data[section]["HTML"] ?? "",
-                        NarName = data[section]["NarName"] ?? "",
-                        ProcessName = ConvertCommaTextToLines(data[section]["ProcessName"]),
-                        ExcludeName = ConvertCommaTextToLines(data[section]["ExcludeName"]),
-                        TargetFolder = data[section]["TargetFolder"] ?? "",
-                        DefaultCheck = ParseBool(data[section]["DefaultCheck"], true),
-                        UseCommonFtp = ParseBool(data[section]["UseCommon"]),
-                        PrivateFtp = new FtpConfiguration
+                        for (int i = 0; i < count; i++)
                         {
-                            Server = data[section]["Server"] ?? "",
-                            UserId = data[section]["ID"] ?? "",
-                            Password = data[section]["Password"] ?? "",
-                            Passive = ParseBool(data[section]["Passive"]),
-                            UseSSL = ParseBool(data[section]["SSL"]),
-                            // ななろだ設定 (Upload モード時のみ使用、GhostIDは除外)
-                            UploadDestinationType = ParseUploadType(data[section]["UploadType"]),
-                            NarNaLoaderUploadUrl = data[section]["UploadURL"] ?? ""
-                        },
-                        // GhostIDはプロジェクト個別設定
-                        NarNaLoaderGhostId = data[section]["UploadGhostID"] ?? ""
-                    };
+                            var section = i.ToString();
+                            if (!data.Sections.ContainsSection(section))
+                                continue;
 
-                    projects.Add(project);
+                            var project = new ProjectSettings
+                            {
+                                Name = data[section]["Name"] ?? "",
+                                Type = ParseSettingType(data[section]["Setting"]),
+                                Directory = data[section]["Directory"] ?? "/",
+                                HtmlFile = data[section]["HTML"] ?? "",
+                                NarName = data[section]["NarName"] ?? "",
+                                ProcessName = ConvertCommaTextToLines(data[section]["ProcessName"]),
+                                ExcludeName = ConvertCommaTextToLines(data[section]["ExcludeName"]),
+                                TargetFolder = data[section]["TargetFolder"] ?? "",
+                                DefaultCheck = ParseBool(data[section]["DefaultCheck"], true),
+                                UseCommonFtp = ParseBool(data[section]["UseCommon"]),
+                                PrivateFtp = new FtpConfiguration
+                                {
+                                    Server = data[section]["Server"] ?? "",
+                                    UserId = data[section]["ID"] ?? "",
+                                    Password = data[section]["Password"] ?? "",
+                                    Passive = ParseBool(data[section]["Passive"]),
+                                    UseSSL = ParseBool(data[section]["SSL"]),
+                                    UploadDestinationType = ParseUploadType(data[section]["UploadType"]),
+                                    NarNaLoaderUploadUrl = data[section]["UploadURL"] ?? ""
+                                },
+                                NarNaLoaderGhostId = data[section]["UploadGhostID"] ?? ""
+                            };
+
+                            projects.Add(project);
+                        }
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // エラー時は空のリストを返す
+                throw new Exception($"設定ファイルの読み込みに失敗しました: {ex.Message}", ex);
             }
-
-            return projects;
         }
 
         /// <summary>

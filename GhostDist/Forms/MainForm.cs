@@ -18,6 +18,7 @@ namespace GhostDist.Forms
         private string _iniPath;
         private bool _isLog = false;
         private bool _noLogWindow = false;
+        private bool _configLoadFailed = false; // 読み込み失敗フラグ
 
         public MainForm()
         {
@@ -36,9 +37,7 @@ namespace GhostDist.Forms
         {
             try
             {
-                _configService.LoadGeneralSettings(out _isLog, out _noLogWindow);
-                _commonFtp = _configService.LoadCommonFtp();
-                _projects = _configService.LoadProjects();
+                _configService.LoadAll(out _isLog, out _noLogWindow, out _commonFtp, out _projects);
 
                 // UIに反映
                 logCheckBox.Checked = _isLog;
@@ -50,15 +49,24 @@ namespace GhostDist.Forms
                 {
                     projectListBox.Items.Add(project.Name, project.DefaultCheck);
                 }
+
+                _configLoadFailed = false;
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"設定ファイルの読み込みに失敗しました: {ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _configLoadFailed = true; // 読み込み失敗時は保存を防止
+                MessageBox.Show($"設定ファイルの読み込みに失敗しました: {ex.Message}\n\n設定ファイルのパス: {_iniPath}\n\n読み込みに失敗したため、設定の保存は無効になります。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void SaveConfiguration()
         {
+            // 読み込みに失敗した場合は保存しない（設定の上書きを防止）
+            if (_configLoadFailed)
+            {
+                return;
+            }
+
             try
             {
                 _configService.SaveProjects(_projects, _commonFtp, _isLog, _noLogWindow);
