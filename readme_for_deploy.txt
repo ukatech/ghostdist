@@ -1,4 +1,4 @@
-ゴースト配布系自動化システム取扱説明書
+ゴースト配布系自動化システム改 取扱説明書
 
 １．このソフトウエアについて
 ２．使用条件
@@ -153,7 +153,7 @@ ghostdist.exeが存在するのと同じ階層にINIファイルが存在する�
 2021.09.06 0.1.0.38
 　ゴースト起動中にNAR/updates2.dauを作れなかった問題を修正
 
-[ukatech/github管理]
+[ukatech/github管理/「改」]
 
 以降はこちらをご覧ください。
 https://github.com/ukatech/ghostdist/releases

@@ -1,4 +1,4 @@
-# GhostDist - ゴースト配布系自動化システム (C#版)
+# GhostDist - ゴースト配布系自動化システム改
 
 Delphi 6版からC#/.NET Framework 4.8に移行したバージョンです。
 
