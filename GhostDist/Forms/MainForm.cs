@@ -580,6 +580,18 @@ namespace GhostDist.Forms
             Application.Exit();
         }
 
+        private void openManualMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start("https://github.com/ukatech/ghostdist/blob/main/USER_MANUAL.md");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"マニュアルを開けませんでした: {ex.Message}", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void aboutMenuItem_Click(object sender, EventArgs e)
         {
             using (var aboutDialog = new AboutDialog())

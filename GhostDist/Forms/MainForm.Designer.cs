@@ -24,6 +24,7 @@ namespace GhostDist.Forms
         private System.Windows.Forms.ToolStripMenuItem noLogWindowMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkVersionMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openManualMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutMenuItem;
 
         protected override void Dispose(bool disposing)
@@ -59,6 +60,7 @@ namespace GhostDist.Forms
             this.noLogWindowMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkVersionMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openManualMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
@@ -285,17 +287,25 @@ namespace GhostDist.Forms
             this.checkVersionMenuItem.Size = new System.Drawing.Size(240, 26);
             this.checkVersionMenuItem.Text = "起動時バージョン確認(&V)";
             this.checkVersionMenuItem.Click += new System.EventHandler(this.checkVersionMenuItem_Click);
-            // 
+            //
             // helpMenuItem
-            // 
+            //
             this.helpMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openManualMenuItem,
             this.aboutMenuItem});
             this.helpMenuItem.Name = "helpMenuItem";
             this.helpMenuItem.Size = new System.Drawing.Size(79, 24);
             this.helpMenuItem.Text = "ヘルプ(&H)";
-            // 
+            //
+            // openManualMenuItem
+            //
+            this.openManualMenuItem.Name = "openManualMenuItem";
+            this.openManualMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.openManualMenuItem.Text = "マニュアルを開く(&M)";
+            this.openManualMenuItem.Click += new System.EventHandler(this.openManualMenuItem_Click);
+            //
             // aboutMenuItem
-            // 
+            //
             this.aboutMenuItem.Name = "aboutMenuItem";
             this.aboutMenuItem.Size = new System.Drawing.Size(196, 26);
             this.aboutMenuItem.Text = "バージョン情報(&A)";
