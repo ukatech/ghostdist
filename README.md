@@ -21,12 +21,6 @@ Delphi 6版からC#/.NET Framework 4.8に移行したバージョンです。
 - Windows 7 以降
 - .NET Framework 4.8
 
-## 技術スタック
-
-- **.NET Framework**: 4.8
-- **UI**: Windows Forms
-- **NuGetパッケージ**: 下記「使用ライブラリ」を参照
-
 ## ビルド方法
 
 ### 前提条件
@@ -37,43 +31,16 @@ Delphi 6版からC#/.NET Framework 4.8に移行したバージョンです。
 
 ### 手順
 
-#### コマンドラインを使用する場合
-
 ```bash
-cd D:\ssp_src_set\ghostdist\src\dotnet
-
-# NuGetパッケージ復元
 nuget restore GhostDist.sln
-
-# ビルド
 msbuild GhostDist.sln /p:Configuration=Release
 ```
-
-#### Visual Studioを使用する場合
-
-1. `GhostDist.sln`を開く
-2. ソリューションエクスプローラーでソリューションを右クリック → `NuGetパッケージの復元`
-3. `ビルド` > `ソリューションのビルド` (Ctrl+Shift+B)
-
-### ビルド出力
-
-- Debug版: `GhostDist\bin\Debug\GhostDist.exe`
-- Release版: `GhostDist\bin\Release\GhostDist.exe`
 
 Costura.Fodyにより依存DLLはEXEに埋め込まれるため、**単一ファイルで配布可能**です。
 
 ## 設定ファイル
 
-- `ghostdist.ini` - プロジェクト設定（EXEと同じフォルダ、Delphi版と完全互換）
-- `user.config` - ウィンドウ位置・サイズ（%LocalAppData%以下に自動保存）
-
-### 文字エンコーディング
-
-- INI設定ファイル: Shift_JIS
-- updates2.dau: Shift_JIS (ファイル名がSJISで対応できない場合は自動でUTF-8に切り替え)
-- NAR(ZIP)内のファイル名: Shift_JIS (Info-Zip Unicode File Name拡張を必要な場合のみ追加)
-
-すべてDelphi版と同じエンコーディングで処理されます。
+- `ghostdist.ini` - プロジェクト設定（EXEと同じフォルダ、Delphi版と完全互換、Shift_JIS）
 
 ## プロジェクト構造
 
@@ -134,4 +101,3 @@ Copyright (c) Simon Cropp
 https://github.com/Fody/Fody/blob/master/License.txt
 https://github.com/Fody/Costura/blob/master/LICENSE
 ```
-
