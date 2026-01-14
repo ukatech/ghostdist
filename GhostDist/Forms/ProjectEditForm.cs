@@ -138,6 +138,7 @@ namespace GhostDist.Forms
             // FTP固有設定: ネットワーク更新 OR FTPアップロード時に有効
             bool needsFtpSettings = (isNetwork || isFtpUpload);
             serverEdit.Enabled = needsFtpSettings && !useDefaultFTPCheck.Checked;
+            serverLabel.Enabled = needsFtpSettings && !useDefaultFTPCheck.Checked;
             passiveCheck.Enabled = needsFtpSettings && !useDefaultFTPCheck.Checked;
             sslCheck.Enabled = needsFtpSettings && !useDefaultFTPCheck.Checked;
             upDirEdit.Enabled = needsFtpSettings;
@@ -145,7 +146,9 @@ namespace GhostDist.Forms
             // ID/パスワード: ネットワーク更新 OR Upload時（FTP/ななろだ共通）に有効
             bool needsAuth = needsFtp;
             idEdit.Enabled = needsAuth && !useDefaultFTPCheck.Checked;
+            idLabel.Enabled = needsAuth && !useDefaultFTPCheck.Checked;
             passwordEdit.Enabled = needsAuth && !useDefaultFTPCheck.Checked;
+            passwordLabel.Enabled = needsAuth && !useDefaultFTPCheck.Checked;
             useDefaultFTPCheck.Enabled = needsAuth;
             setDefaultButton.Enabled = needsAuth;
 
@@ -373,6 +376,15 @@ namespace GhostDist.Forms
 
         private void useDefaultFTPCheck_CheckedChanged(object sender, EventArgs e)
         {
+            // 共通設定を使う場合はCommonFtpの値を表示、そうでない場合は個別設定を表示
+            var config = useDefaultFTPCheck.Checked && CommonFtp != null ? CommonFtp : Settings.PrivateFtp;
+
+            serverEdit.Text = config.Server;
+            idEdit.Text = config.UserId;
+            passwordEdit.Text = config.Password;
+            passiveCheck.Checked = config.Passive;
+            sslCheck.Checked = config.UseSSL;
+
             LoadUploadSettings();
             UpdateControlsState();
         }
