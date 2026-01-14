@@ -14,12 +14,15 @@ namespace GhostDist.Forms
         public ProjectSettings Settings { get; set; }
         public FtpConfiguration CommonFtp { get; set; }
 
+        private int fixedWidth;
+
         public ProjectEditForm()
         {
             InitializeComponent();
             Settings = new ProjectSettings();
             InitializeForm();
             LoadSettings();
+            InitializeResizeBehavior();
         }
 
         public ProjectEditForm(ProjectSettings settings)
@@ -28,6 +31,22 @@ namespace GhostDist.Forms
             Settings = settings;
             InitializeForm();
             LoadSettings();
+            InitializeResizeBehavior();
+        }
+
+        private void InitializeResizeBehavior()
+        {
+            // 初期幅を記録
+            this.Load += (s, e) => { fixedWidth = this.Width; };
+
+            // リサイズ時に幅を固定
+            this.Resize += (s, e) =>
+            {
+                if (fixedWidth > 0 && this.Width != fixedWidth)
+                {
+                    this.Width = fixedWidth;
+                }
+            };
         }
 
         private void InitializeForm()

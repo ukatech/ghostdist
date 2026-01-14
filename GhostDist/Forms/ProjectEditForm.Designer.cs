@@ -626,10 +626,10 @@ namespace GhostDist.Forms
             this.Controls.Add(this.narCreateRadio);
             this.Controls.Add(this.narUpRadio);
             this.Controls.Add(this.networkRadio);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(857, 906);
             this.Name = "ProjectEditForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
