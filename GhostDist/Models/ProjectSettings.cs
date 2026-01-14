@@ -87,7 +87,7 @@ namespace GhostDist.Models
         /// <summary>
         /// デフォルトの処理対象パターン
         /// </summary>
-        private string GetDefaultProcessPatterns()
+        public static string GetDefaultProcessPatterns()
         {
             return string.Join(Environment.NewLine, new[]
             {
@@ -130,7 +130,7 @@ namespace GhostDist.Models
         /// <summary>
         /// デフォルトの除外パターン
         /// </summary>
-        private string GetDefaultExcludePatterns()
+        public static string GetDefaultExcludePatterns()
         {
             return string.Join(Environment.NewLine, new[]
             {

@@ -19,6 +19,7 @@ namespace GhostDist.Forms
             InitializeComponent();
             Settings = new ProjectSettings();
             InitializeForm();
+            LoadSettings();
         }
 
         public ProjectEditForm(ProjectSettings settings)
@@ -128,11 +129,11 @@ namespace GhostDist.Forms
             narNameEdit.Enabled = needsNar;
             narLocateButton.Enabled = needsNar;
 
-            // アップロード先選択（FTP/ななろだ）はUploadモード時のみ表示
+            // アップロード先選択（FTP/ななろだ）はUploadモード時のみ有効
             bool isFtpUpload = isUpload && ftpRadio.Checked;
             bool isNarNaLoaderUpload = isUpload && nanaloaderRadio.Checked;
-            ftpRadio.Visible = isUpload;
-            nanaloaderRadio.Visible = isUpload;
+            ftpRadio.Enabled = isUpload;
+            nanaloaderRadio.Enabled = isUpload;
 
             // FTP固有設定: ネットワーク更新 OR FTPアップロード時に有効
             bool needsFtpSettings = (isNetwork || isFtpUpload);
@@ -148,47 +149,13 @@ namespace GhostDist.Forms
             useDefaultFTPCheck.Enabled = needsAuth;
             setDefaultButton.Enabled = needsAuth;
 
-            // ななろだ設定はNarNaLoaderアップロード時のみ表示・有効
-            ghostIdLabel.Visible = isUpload;
-            ghostIdEdit.Visible = isUpload;
-            uploadUrlLabel.Visible = isUpload;
-            uploadUrlEdit.Visible = isUpload;
+            // ななろだ設定の有効/無効制御
+            // ラベルはUploadモード時に有効化
+            ghostIdLabel.Enabled = isUpload;
+            uploadUrlLabel.Enabled = isUpload;
+            // テキストボックスはNarNaLoaderアップロード時のみ有効
             ghostIdEdit.Enabled = isNarNaLoaderUpload && !useDefaultFTPCheck.Checked;
             uploadUrlEdit.Enabled = isNarNaLoaderUpload && !useDefaultFTPCheck.Checked;
-
-            // アーカイブ生成時の必須ファイル追加
-            if (needsNar)
-            {
-                EnsurePatternExists(processNameMemo, "install.txt");
-                EnsurePatternExists(processNameMemo, "updates2.dau");
-                EnsurePatternExists(processNameMemo, "ghost/master/updates2.dau");
-            }
-            else
-            {
-                // ネットワーク更新時は不要なパターンを削除
-                RemovePattern(processNameMemo, "install.txt");
-                RemovePattern(processNameMemo, "updates2.dau");
-                RemovePattern(processNameMemo, "ghost/master/updates2.dau");
-            }
-        }
-
-        private void EnsurePatternExists(TextBox textBox, string pattern)
-        {
-            var lines = textBox.Lines;
-            foreach (var line in lines)
-            {
-                if (line.Trim() == pattern)
-                    return;
-            }
-
-            textBox.AppendText(Environment.NewLine + pattern);
-        }
-
-        private void RemovePattern(TextBox textBox, string pattern)
-        {
-            var lines = new System.Collections.Generic.List<string>(textBox.Lines);
-            lines.RemoveAll(line => line.Trim() == pattern);
-            textBox.Lines = lines.ToArray();
         }
 
         private void networkRadio_CheckedChanged(object sender, EventArgs e)
@@ -428,6 +395,34 @@ namespace GhostDist.Forms
             // GhostIDは常にプロジェクト個別設定から読み込み
             ghostIdEdit.Text = Settings.NarNaLoaderGhostId;
             uploadUrlEdit.Text = config.NarNaLoaderUploadUrl;
+        }
+
+        private void resetProcessNameButton_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "処理ファイル名条件をデフォルト値にリセットしますか？",
+                "確認",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                processNameMemo.Text = ProjectSettings.GetDefaultProcessPatterns();
+            }
+        }
+
+        private void resetEscapeNameButton_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "除外ファイル名条件をデフォルト値にリセットしますか？",
+                "確認",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                escapeNameMemo.Text = ProjectSettings.GetDefaultExcludePatterns();
+            }
         }
     }
 }

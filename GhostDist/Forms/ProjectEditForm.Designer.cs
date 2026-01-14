@@ -47,6 +47,8 @@ namespace GhostDist.Forms
         private System.Windows.Forms.Label ghostIdLabel;
         private System.Windows.Forms.TextBox uploadUrlEdit;
         private System.Windows.Forms.Label uploadUrlLabel;
+        private System.Windows.Forms.Button resetProcessNameButton;
+        private System.Windows.Forms.Button resetEscapeNameButton;
 
         protected override void Dispose(bool disposing)
         {
@@ -80,10 +82,10 @@ namespace GhostDist.Forms
             this.serverLabel = new System.Windows.Forms.Label();
             this.ftpRadio = new System.Windows.Forms.RadioButton();
             this.nanaloaderRadio = new System.Windows.Forms.RadioButton();
-            this.ghostIdLabel = new System.Windows.Forms.Label();
-            this.ghostIdEdit = new System.Windows.Forms.TextBox();
             this.uploadUrlLabel = new System.Windows.Forms.Label();
             this.uploadUrlEdit = new System.Windows.Forms.TextBox();
+            this.ghostIdLabel = new System.Windows.Forms.Label();
+            this.ghostIdEdit = new System.Windows.Forms.TextBox();
             this.upDirEdit = new System.Windows.Forms.TextBox();
             this.upDirLabel = new System.Windows.Forms.Label();
             this.htmlEdit = new System.Windows.Forms.TextBox();
@@ -97,6 +99,8 @@ namespace GhostDist.Forms
             this.escapeNameLabel = new System.Windows.Forms.Label();
             this.processNameMemo = new System.Windows.Forms.TextBox();
             this.processNameLabel = new System.Windows.Forms.Label();
+            this.resetProcessNameButton = new System.Windows.Forms.Button();
+            this.resetEscapeNameButton = new System.Windows.Forms.Button();
             this.previewButton = new System.Windows.Forms.Button();
             this.defaultCheckBox = new System.Windows.Forms.CheckBox();
             this.okButton = new System.Windows.Forms.Button();
@@ -220,7 +224,7 @@ namespace GhostDist.Forms
             this.setDefaultButton.Location = new System.Drawing.Point(425, 16);
             this.setDefaultButton.Margin = new System.Windows.Forms.Padding(4);
             this.setDefaultButton.Name = "setDefaultButton";
-            this.setDefaultButton.Size = new System.Drawing.Size(247, 31);
+            this.setDefaultButton.Size = new System.Drawing.Size(247, 29);
             this.setDefaultButton.TabIndex = 9;
             this.setDefaultButton.Text = "この設定を共通設定にする(&U)";
             this.setDefaultButton.UseVisualStyleBackColor = true;
@@ -241,7 +245,7 @@ namespace GhostDist.Forms
             // sslCheck
             // 
             this.sslCheck.AutoSize = true;
-            this.sslCheck.Location = new System.Drawing.Point(559, 68);
+            this.sslCheck.Location = new System.Drawing.Point(570, 68);
             this.sslCheck.Margin = new System.Windows.Forms.Padding(4);
             this.sslCheck.Name = "sslCheck";
             this.sslCheck.Size = new System.Drawing.Size(73, 19);
@@ -341,24 +345,6 @@ namespace GhostDist.Forms
             this.nanaloaderRadio.UseVisualStyleBackColor = true;
             this.nanaloaderRadio.CheckedChanged += new System.EventHandler(this.nanaloaderRadio_CheckedChanged);
             // 
-            // ghostIdLabel
-            // 
-            this.ghostIdLabel.AutoSize = true;
-            this.ghostIdLabel.Location = new System.Drawing.Point(13, 253);
-            this.ghostIdLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.ghostIdLabel.Name = "ghostIdLabel";
-            this.ghostIdLabel.Size = new System.Drawing.Size(118, 15);
-            this.ghostIdLabel.TabIndex = 12;
-            this.ghostIdLabel.Text = "ななろだアイテムID:";
-            // 
-            // ghostIdEdit
-            // 
-            this.ghostIdEdit.Location = new System.Drawing.Point(203, 250);
-            this.ghostIdEdit.Margin = new System.Windows.Forms.Padding(4);
-            this.ghostIdEdit.Name = "ghostIdEdit";
-            this.ghostIdEdit.Size = new System.Drawing.Size(311, 22);
-            this.ghostIdEdit.TabIndex = 13;
-            // 
             // uploadUrlLabel
             // 
             this.uploadUrlLabel.AutoSize = true;
@@ -376,6 +362,24 @@ namespace GhostDist.Forms
             this.uploadUrlEdit.Name = "uploadUrlEdit";
             this.uploadUrlEdit.Size = new System.Drawing.Size(620, 22);
             this.uploadUrlEdit.TabIndex = 15;
+            // 
+            // ghostIdLabel
+            // 
+            this.ghostIdLabel.AutoSize = true;
+            this.ghostIdLabel.Location = new System.Drawing.Point(13, 253);
+            this.ghostIdLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.ghostIdLabel.Name = "ghostIdLabel";
+            this.ghostIdLabel.Size = new System.Drawing.Size(118, 15);
+            this.ghostIdLabel.TabIndex = 12;
+            this.ghostIdLabel.Text = "ななろだアイテムID:";
+            // 
+            // ghostIdEdit
+            // 
+            this.ghostIdEdit.Location = new System.Drawing.Point(203, 250);
+            this.ghostIdEdit.Margin = new System.Windows.Forms.Padding(4);
+            this.ghostIdEdit.Name = "ghostIdEdit";
+            this.ghostIdEdit.Size = new System.Drawing.Size(311, 22);
+            this.ghostIdEdit.TabIndex = 13;
             // 
             // upDirEdit
             // 
@@ -463,6 +467,8 @@ namespace GhostDist.Forms
             this.fileGroupBox.Controls.Add(this.escapeNameLabel);
             this.fileGroupBox.Controls.Add(this.processNameMemo);
             this.fileGroupBox.Controls.Add(this.processNameLabel);
+            this.fileGroupBox.Controls.Add(this.resetProcessNameButton);
+            this.fileGroupBox.Controls.Add(this.resetEscapeNameButton);
             this.fileGroupBox.Location = new System.Drawing.Point(11, 488);
             this.fileGroupBox.Margin = new System.Windows.Forms.Padding(4);
             this.fileGroupBox.Name = "fileGroupBox";
@@ -517,10 +523,33 @@ namespace GhostDist.Forms
             this.processNameLabel.TabIndex = 0;
             this.processNameLabel.Text = "処理ファイル名条件(&P):";
             // 
+            // resetProcessNameButton
+            // 
+            this.resetProcessNameButton.Location = new System.Drawing.Point(165, 17);
+            this.resetProcessNameButton.Margin = new System.Windows.Forms.Padding(4);
+            this.resetProcessNameButton.Name = "resetProcessNameButton";
+            this.resetProcessNameButton.Size = new System.Drawing.Size(80, 29);
+            this.resetProcessNameButton.TabIndex = 4;
+            this.resetProcessNameButton.Text = "リセット";
+            this.resetProcessNameButton.UseVisualStyleBackColor = true;
+            this.resetProcessNameButton.Click += new System.EventHandler(this.resetProcessNameButton_Click);
+            // 
+            // resetEscapeNameButton
+            // 
+            this.resetEscapeNameButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.resetEscapeNameButton.Location = new System.Drawing.Point(559, 17);
+            this.resetEscapeNameButton.Margin = new System.Windows.Forms.Padding(4);
+            this.resetEscapeNameButton.Name = "resetEscapeNameButton";
+            this.resetEscapeNameButton.Size = new System.Drawing.Size(80, 29);
+            this.resetEscapeNameButton.TabIndex = 5;
+            this.resetEscapeNameButton.Text = "リセット";
+            this.resetEscapeNameButton.UseVisualStyleBackColor = true;
+            this.resetEscapeNameButton.Click += new System.EventHandler(this.resetEscapeNameButton_Click);
+            // 
             // previewButton
             // 
             this.previewButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.previewButton.Location = new System.Drawing.Point(11, 817);
+            this.previewButton.Location = new System.Drawing.Point(13, 817);
             this.previewButton.Margin = new System.Windows.Forms.Padding(4);
             this.previewButton.Name = "previewButton";
             this.previewButton.Size = new System.Drawing.Size(284, 29);
@@ -545,10 +574,10 @@ namespace GhostDist.Forms
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(708, 815);
+            this.okButton.Location = new System.Drawing.Point(708, 817);
             this.okButton.Margin = new System.Windows.Forms.Padding(4);
             this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(115, 31);
+            this.okButton.Size = new System.Drawing.Size(115, 29);
             this.okButton.TabIndex = 17;
             this.okButton.Text = "&OK";
             this.okButton.UseVisualStyleBackColor = true;
@@ -558,10 +587,10 @@ namespace GhostDist.Forms
             // 
             this.cancelButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(580, 815);
+            this.cancelButton.Location = new System.Drawing.Point(585, 817);
             this.cancelButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(115, 31);
+            this.cancelButton.Size = new System.Drawing.Size(115, 29);
             this.cancelButton.TabIndex = 18;
             this.cancelButton.Text = "キャンセル(&C)";
             this.cancelButton.UseVisualStyleBackColor = true;

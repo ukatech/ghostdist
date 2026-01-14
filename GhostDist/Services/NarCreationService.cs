@@ -32,7 +32,11 @@ namespace GhostDist.Services
 
             // ファイルリスト生成
             OnLogMessage("ファイルリストを生成します。");
-            if (!updates.Make(settings.ProcessName, settings.ExcludeName))
+
+            // NAR作成に必須のファイルパターンを追加
+            var processPatterns = AddRequiredPatternsForNar(settings.ProcessName);
+
+            if (!updates.Make(processPatterns, settings.ExcludeName))
             {
                 OnLogMessage($"delete.txtに問題となる可能性のある記述を検出しました。");
                 OnLogMessage(updates.DeleteTxtError);
@@ -269,6 +273,36 @@ namespace GhostDist.Services
             }
 
             return combined;
+        }
+
+        /// <summary>
+        /// NAR作成に必須のファイルパターンを追加
+        /// </summary>
+        /// <param name="processPatterns">元の処理対象パターン</param>
+        /// <returns>必須パターンを含む処理対象パターン</returns>
+        private string AddRequiredPatternsForNar(string processPatterns)
+        {
+            var requiredPatterns = new[] { "install.txt", "updates2.dau", "ghost/master/updates2.dau" };
+            var patterns = new List<string>();
+
+            // 既存のパターンを追加
+            if (!string.IsNullOrEmpty(processPatterns))
+            {
+                patterns.AddRange(processPatterns.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                    .Select(p => p.Trim())
+                    .Where(p => !string.IsNullOrEmpty(p)));
+            }
+
+            // 必須パターンを追加（重複チェック）
+            foreach (var required in requiredPatterns)
+            {
+                if (!patterns.Any(p => p.Equals(required, StringComparison.OrdinalIgnoreCase)))
+                {
+                    patterns.Add(required);
+                }
+            }
+
+            return string.Join(Environment.NewLine, patterns);
         }
 
         protected virtual void OnLogMessage(string message)
