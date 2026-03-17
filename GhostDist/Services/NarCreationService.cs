@@ -81,7 +81,7 @@ namespace GhostDist.Services
                     var directories = new HashSet<string>();
                     foreach (var file in updates.Files)
                     {
-                        var entryName = file.RelativePath.Replace('\\', '/');
+                        var entryName = ZipEntry.CleanName(file.RelativePath);
                         var parts = entryName.Split('/');
 
                         // 親ディレクトリを全て収集
@@ -102,7 +102,7 @@ namespace GhostDist.Services
                     foreach (var file in updates.Files)
                     {
                         // アーカイブ内のパス（相対パス、スラッシュ区切り）
-                        var entryName = file.RelativePath.Replace('\\', '/');
+                        var entryName = ZipEntry.CleanName(file.RelativePath);
 
                         // エントリ作成
                         var entry = new ZipEntry(entryName);
