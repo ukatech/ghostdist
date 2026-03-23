@@ -28,7 +28,7 @@ namespace GhostDist.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.logTextBox.Font = new System.Drawing.Font("ＭＳ ゴシック", 9F);
             this.logTextBox.Location = new System.Drawing.Point(16, 15);
-            this.logTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.logTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.logTextBox.Multiline = true;
             this.logTextBox.Name = "logTextBox";
             this.logTextBox.ReadOnly = true;
@@ -41,7 +41,7 @@ namespace GhostDist.Forms
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.progressBar.Location = new System.Drawing.Point(16, 491);
-            this.progressBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.progressBar.Margin = new System.Windows.Forms.Padding(4);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(670, 29);
             this.progressBar.TabIndex = 1;
@@ -53,10 +53,11 @@ namespace GhostDist.Forms
             this.ClientSize = new System.Drawing.Size(702, 535);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.logTextBox);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.MaximizeBox = false;
-            this.Name = "LogForm";
             this.Icon = global::GhostDist.Properties.Resources.AppIcon;
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(720, 582);
+            this.Name = "LogForm";
             this.Text = "ログ";
             this.ResumeLayout(false);
             this.PerformLayout();

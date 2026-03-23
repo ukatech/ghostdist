@@ -76,7 +76,7 @@ namespace GhostDist.Forms
             this.projectListBox.Location = new System.Drawing.Point(16, 35);
             this.projectListBox.Margin = new System.Windows.Forms.Padding(4);
             this.projectListBox.Name = "projectListBox";
-            this.projectListBox.Size = new System.Drawing.Size(318, 466);
+            this.projectListBox.Size = new System.Drawing.Size(318, 464);
             this.projectListBox.TabIndex = 0;
             this.projectListBox.DoubleClick += new System.EventHandler(this.projectListBox_DoubleClick);
             // 
@@ -156,7 +156,7 @@ namespace GhostDist.Forms
             // 
             this.runButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.runButton.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold);
-            this.runButton.Location = new System.Drawing.Point(342, 464);
+            this.runButton.Location = new System.Drawing.Point(342, 462);
             this.runButton.Margin = new System.Windows.Forms.Padding(4);
             this.runButton.Name = "runButton";
             this.runButton.Size = new System.Drawing.Size(154, 38);
@@ -287,27 +287,27 @@ namespace GhostDist.Forms
             this.checkVersionMenuItem.Size = new System.Drawing.Size(240, 26);
             this.checkVersionMenuItem.Text = "起動時バージョン確認(&V)";
             this.checkVersionMenuItem.Click += new System.EventHandler(this.checkVersionMenuItem_Click);
-            //
+            // 
             // helpMenuItem
-            //
+            // 
             this.helpMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openManualMenuItem,
             this.aboutMenuItem});
             this.helpMenuItem.Name = "helpMenuItem";
             this.helpMenuItem.Size = new System.Drawing.Size(79, 24);
             this.helpMenuItem.Text = "ヘルプ(&H)";
-            //
+            // 
             // openManualMenuItem
-            //
+            // 
             this.openManualMenuItem.Name = "openManualMenuItem";
-            this.openManualMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.openManualMenuItem.Size = new System.Drawing.Size(206, 26);
             this.openManualMenuItem.Text = "マニュアルを開く(&M)";
             this.openManualMenuItem.Click += new System.EventHandler(this.openManualMenuItem_Click);
-            //
+            // 
             // aboutMenuItem
-            //
+            // 
             this.aboutMenuItem.Name = "aboutMenuItem";
-            this.aboutMenuItem.Size = new System.Drawing.Size(196, 26);
+            this.aboutMenuItem.Size = new System.Drawing.Size(206, 26);
             this.aboutMenuItem.Text = "バージョン情報(&A)";
             this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
             // 
@@ -315,7 +315,7 @@ namespace GhostDist.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(509, 519);
+            this.ClientSize = new System.Drawing.Size(509, 517);
             this.Controls.Add(this.runButton);
             this.Controls.Add(this.narCreateSelectButton);
             this.Controls.Add(this.uploadSelectButton);
