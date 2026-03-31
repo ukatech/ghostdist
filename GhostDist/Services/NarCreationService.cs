@@ -51,14 +51,13 @@ namespace GhostDist.Services
             var dauPath = Path.Combine(targetFolder, "updates2.dau");
             updates.SaveToFile(dauPath, OnLogMessage);
 
-            // ghost/master/updates2.dauにもコピー
+            // ghost/master/updates2.dauにもコピー（ディレクトリが存在する場合のみ）
             var masterDauPath = Path.Combine(targetFolder, "ghost", "master", "updates2.dau");
             var masterDir = Path.GetDirectoryName(masterDauPath);
-            if (!Directory.Exists(masterDir))
+            if (Directory.Exists(masterDir))
             {
-                Directory.CreateDirectory(masterDir);
+                File.Copy(dauPath, masterDauPath, true);
             }
-            File.Copy(dauPath, masterDauPath, true);
 
             // ZIP圧縮
             OnLogMessage("圧縮処理を開始します。");
